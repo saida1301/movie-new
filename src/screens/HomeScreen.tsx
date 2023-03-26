@@ -15,7 +15,7 @@ const HomeScreen = ({navigation}:any) => {
   return (
   
    <ScrollView style={{padding:10, backgroundColor:"black"}}>
-     <SearchScreen />
+    <SearchScreen />
   <Card rating={0}/>
  <Genres navigation={navigation}/>
 
