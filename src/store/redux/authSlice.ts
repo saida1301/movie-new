@@ -1,7 +1,8 @@
 
 import { UserType } from './../../utilities/types';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axiosInstance from '../../api/axiosInstance';
+import axios from 'axios';
+
 
 interface InitialStateAuthType {
     user: any,
@@ -29,25 +30,33 @@ const initialStateAuth: InitialStateAuthType = {
 
 interface Register {
     email: string,
-    fullName: string
+    password: string,
+    name: string,
 }
+
+const axiosInstance = axios.create({
+    baseURL: 'http://192.168.0.105:3000/',
+    headers: {
+        'Content-Type': 'application/json',
+    }
+})
 
 
 export const register = createAsyncThunk(
-    '/users/register',
+    '/signup',
     async (data: Register) => {
-        const res = await axiosInstance.post('users/register', data);
+        const res = await axiosInstance.post('signup', data);
         return res.data;
     })
 
-export const login = createAsyncThunk(
-    '/auth/login',
-    async (email: string) => {
-        const res = await axiosInstance.post('auth/login', {
-            email: email
-        });
-        return res.data;
-    })
+    export const login = createAsyncThunk(
+        '/login',
+        async ({  email, password }: { email: string, password: string }) => {
+          const res = await axiosInstance.post('login', {  email, password });
+          return res.data;
+        }
+      );
+      
 
 const authSlice = createSlice({
     initialState: initialStateAuth,

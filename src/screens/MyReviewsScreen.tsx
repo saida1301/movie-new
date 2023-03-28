@@ -1,65 +1,64 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { API_KEY } from '../services/urls';
+// AddReview.js
 
-const MyReviewsScreen = ({ userId }: any) => {
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+
+const MyReviewsScreen = ({ id }:any) => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`https://api.themoviedb.org/3/account/${userId}/rated/movies?api_key=${API_KEY}&language=en-US&sort_by=created_at.asc`)
-      .then(response => {
-        setReviews(response.data.results);
-      })
-      .catch(error => {
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch(`http://192.168.0.105:3000/review/${id}`);
+        const data = await response.json();
+        setReviews(data);
+      } catch (error) {
         console.log(error);
-      });
-  }, []);
+      }
+    };
+    fetchReviews();
+  }, [id]);
+
+  const renderItem = ({ item }:any) => (
+    <View style={styles.review}>
+      <Text style={styles.movieTitle}>{item.title}</Text>
+      <Text style={styles.content}>{item.content}</Text>
+      <Text style={styles.date}>{item.created_at}</Text>
+    </View>
+  );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Your Reviews</Text>
-      {reviews.map(review => (
-        <View key={review.id} style={styles.review}>
-          <Text style={styles.movieTitle}>{review.title}</Text>
-          <Text style={styles.reviewContent}>{review.content}</Text>
-          <Text style={styles.rating}>Rating: {review.rating}/10</Text>
-        </View>
-      ))}
-    </View>
+    <FlatList
+      data={reviews}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+      style={styles.list}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: 'black',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: 'white',
+  list: {
+    marginTop: 20,
   },
   review: {
-    marginBottom: 20,
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
   },
   movieTitle: {
-    fontSize: 18,
     fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 10,
-  },
-  reviewContent: {
     fontSize: 16,
-    color: 'white',
-    marginBottom: 10,
+    marginBottom: 5,
   },
-  rating: {
-    fontSize: 16,
-    color: 'white',
+  content: {
+    fontSize: 14,
+    marginBottom: 5,
+  },
+  date: {
+    fontSize: 12,
+    color: '#999',
   },
 });
 

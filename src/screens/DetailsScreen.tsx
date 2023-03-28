@@ -18,7 +18,7 @@ import {TextInput} from 'react-native';
 import { colors, spacing } from '../assets/themes';
 const MAX_LINES = 3;
 const DetailsScreen = ({navigation, route}: any) => {
-  const {id, movieId} = route.params;
+  const {id, movie_id} = route.params;
   const [isFavorite, setIsFavorite] = useState(false);
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState('');
@@ -27,40 +27,6 @@ const DetailsScreen = ({navigation, route}: any) => {
   const [favorite, setFavorite] = useState(false);
   const [reviewText, setReviewText] = useState('');
   const [reviewAuthor, setReviewAuthor] = useState('');
-
-  const handleSubmitReview = async () => {
-    const url = `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=06e5af81859b7d0f87a8741091f5328e`;
-    const authorDetails = {
-      name: reviewAuthor,
-      username: reviewAuthor,
-    };
-    const requestBody = {
-      content: reviewText,
-      author: reviewAuthor,
-      author_details: authorDetails,
-      media_id: movieId,
-    };
-
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log('Review submitted successfully!');
-      } else {
-        console.error(data.status_message);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
     const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&append_to_response=credits,reviews&language=en-US`;
@@ -91,7 +57,7 @@ const DetailsScreen = ({navigation, route}: any) => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${API_KEY}&language=en-US&page=1`,
+          `https://movieapl.onrender.com/reviews/${id}`,
         );
         setReviews(response.data.results);
       } catch (error) {
@@ -99,14 +65,14 @@ const DetailsScreen = ({navigation, route}: any) => {
       }
     };
     fetchReviews();
-  }, [movieId]);
+  }, [movie_id]);
 
   const handleHeartPress = (movieId: any) => {
     setFavorite(!isFavorite);
   };
 
-  const handlePressReview = (movieId: any) => {
-    navigation.navigate('AddReview', {id: movieId});
+  const handlePressReview = (movie_id: any, author: any) => {
+    navigation.navigate('AddReview', { movie_id, author });
   };
 
   if (!movie) {
@@ -164,7 +130,7 @@ const DetailsScreen = ({navigation, route}: any) => {
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.title}>{movie.title}</Text>
             <AddButtons
-              movieId={id}
+              movie_id={id}
               onPressFavorite={handleHeartPress}
               onPressReview={handlePressReview}
             />

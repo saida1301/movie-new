@@ -1,50 +1,150 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
-import axios from 'axios';
-import { API_KEY } from '../services/urls';
+import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 
-const AddReview = ({ route }: any) => {
-  const [ratingValue, setRatingValue] = useState('');
-  const [reviewMessage, setReviewMessage] = useState('');
-  const { movieId } = route.params;
 
-  const sessionId = "a96bf5a8955303a6070e642d120903e2e8b6e44a";
-  const apiUrl = `https://api.themoviedb.org/3/movie/${movieId}/rating?api_key=${API_KEY}&session_id=${sessionId}`;
-  
-  const addReview = async () => {
+const AddReview = ({ route }) => {
+  const [rating, setRating] = useState('');
+  const [content, setContent] = useState('');
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+const handleLogin = (userData: React.SetStateAction<null>) => {
+  setCurrentUser(userData);
+};
+
+  const { movie_id, author } = route.params;
+ 
+  const postReview = async () => {
     try {
-      const response = await axios.post(apiUrl, {
-        value: ratingValue,
-        review: reviewMessage
+      const response = await fetch('http://192.168.0.105:3000/reviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ movie_id, author: author, content }),
       });
   
-      console.log('Review added successfully:', response.data);
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+  
+      const data = await response.json();
+      console.log(data);
+      setIsSuccessModalVisible(true);
     } catch (error) {
-      console.error('Error adding review:', error.response);
-
+      console.log(error);
     }
   };
   
+  
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Add Review for Movie {movieId}</Text>
+    <View style={styles.container}>
       <TextInput
-        placeholder="Enter rating value"
-        value={ratingValue}
-        onChangeText={setRatingValue}
-        style={{ borderWidth: 1, padding: 10, margin: 10, width: 350 }}
-        keyboardType="numeric"
+        value={content}
+        onChangeText={setContent}
+        placeholder="Enter your review"
+        style={styles.input}
+        multiline={true}
+        numberOfLines={4}
       />
-      <TextInput
-        placeholder="Enter review message"
-        value={reviewMessage}
-        onChangeText={setReviewMessage}
-        style={{ borderWidth: 1, padding: 10, margin: 10, width: 350, height: 100 }}
-      />
-      <Button title="Add Review" onPress={addReview} />
+      <TouchableOpacity style={styles.button} onPress={postReview}>
+        <Text style={styles.buttonText}>Submit Review</Text>
+      </TouchableOpacity>
+      <Modal
+        visible={isSuccessModalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setIsSuccessModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modal}>
+            <Text style={styles.modalText}>Review added successfully!</Text>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => setIsSuccessModalVisible(false)}
+            >
+              <Text style={styles.modalButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+    justifyContent:"center",
+    backgroundColor:"#1c1c1c"
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#0080ff',
+    borderRadius: 5,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  modalButton: {
+    backgroundColor: '#0080ff',
+    borderRadius: 5,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modal: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+ modalButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+})
+
 
 export default AddReview;
