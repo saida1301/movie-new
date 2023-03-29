@@ -11,19 +11,19 @@ const AddButtons = ({movieId, onPressReview}: any) => {
   const handleFavoritePress = async () => {
     const favoritesString = await AsyncStorage.getItem('favorites');
     let favorites = favoritesString ? JSON.parse(favoritesString) : [];
-
+  
     if (favorites.includes(movieId)) {
       favorites = favorites.filter((id: number) => id !== movieId);
     } else {
       favorites.push(movieId);
     }
-
+  
     await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
-
-    setIsFavorite(!isFavorite);
-
+  
+    setIsFavorite(favorites.includes(movieId));
     navigation.navigate("Favorites", {favorites});
   };
+  
 
   return (
     <View style={styles.container}>

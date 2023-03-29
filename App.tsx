@@ -38,14 +38,16 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
+        initialRouteName="SplashScreen"
+        screenOptions={{ headerShown: false }}
       >
-       
-        <Stack.Screen name="SplashScreen" component={SplashScreen} options={{headerShown: false}}/>
-        <Stack.Screen
+             <Stack.Screen
             name="Tabs"
             component={TabNavigator}
             options={{headerShown: false}}
           />
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
+   
           {/* <Stack.Screen name="Onboarding" component={OnBoardingScreen} options={{headerShown: false}}/> */}
           {/* <Stack.Screen name="login" component={LoginScreen} options={{headerShown: false}} /> */}
           <Stack.Screen name="signup" component={Register} options={{headerShown: false}} />

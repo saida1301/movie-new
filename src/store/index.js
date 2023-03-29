@@ -1,7 +1,8 @@
 import {useState, createContext, useEffect} from 'react';
 export const favoritesContext = createContext();
-import axios from "axios";
-import fetchData from "../api/dataFetching"
+
+import {favoritesStorageHelper} from "../helpers/FavoritesStorageHelper"
+
 export const FavoritesProvider = ({children})=> {
  const [favorites, setfavorites] = useState([]);
 
@@ -11,9 +12,9 @@ export const FavoritesProvider = ({children})=> {
   };
   
     useEffect(() => {
-    fetchData('http://192.168.0.105:3000/favorites/').then(data => {
-      setfavorites(data);
-    });
+      favoritesStorageHelper.get().then(data => {
+        setfavorites(data);
+      });
   }, []);
   
   const value = {

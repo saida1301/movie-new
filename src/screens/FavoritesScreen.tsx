@@ -7,6 +7,8 @@ import {useContext} from "react";
 
 const FavoritesScreen = ({ route }: any) => {
   const [movies, setMovies] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  
 
 
 useEffect(() => {
@@ -25,16 +27,19 @@ useEffect(() => {
 }, [route.params]);
 
 
-  const handleRemoveFavorite = async (movieId: string) => {
-    const favoritesString = await AsyncStorage.getItem('favorites');
-    let favorites = favoritesString ? JSON.parse(favoritesString) : [];
+const handleRemoveFavorite = async (movieId: string) => {
+  const favoritesString = await AsyncStorage.getItem('favorites');
+  let favorites = favoritesString ? JSON.parse(favoritesString) : [];
 
-    favorites = favorites.filter((id: string) => id !== movieId);
+  favorites = favorites.filter((id: string) => id !== movieId);
 
-    await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
+  await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
 
-    setMovies(movies.filter((movie: any) => movie.id !== movieId));
-  };
+  const updatedMovies = movies.filter((movie: any) => movie.id !== movieId);
+  setMovies(updatedMovies);
+};
+
+
 
   return (
     <ScrollView style={{backgroundColor:"black", }}>
