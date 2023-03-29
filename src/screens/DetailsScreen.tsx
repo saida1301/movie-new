@@ -67,8 +67,8 @@ const DetailsScreen = ({navigation, route}: any) => {
     setFavorite(!isFavorite);
   };
 
-  const handlePressReview = (movie_id: any, author: any) => {
-    navigation.navigate('AddReview', {movie_id, author});
+  const handlePressReview = (movie_id: any, author_id: any) => {
+    navigation.navigate('AddReview', {movie_id, author_id});
   };
 
   if (!movie) {

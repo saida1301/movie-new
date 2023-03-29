@@ -12,7 +12,7 @@ const handleLogin = (userData: React.SetStateAction<null>) => {
   setCurrentUser(userData);
 };
 
-  const { movie_id, author } = route.params;
+  const { movie_id, author_id } = route.params;
  
   const postReview = async () => {
     try {
@@ -21,10 +21,10 @@ const handleLogin = (userData: React.SetStateAction<null>) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ movie_id, author: author, content }),
+        body: JSON.stringify({ movie_id, author: author_id, content }),
       });
   
-      if (!response.ok) {
+     if (!response.ok) {
         throw new Error('Something went wrong');
       }
   

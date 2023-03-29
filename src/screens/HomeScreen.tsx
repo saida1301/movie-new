@@ -6,6 +6,9 @@ import SearchScreen from '../components/SearchScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DetailsScreen from './DetailsScreen';
 import AddReview from './AddReview';
+import ComingSoonScreen from '../components/ComingSoonScreen';
+import EditorsPickScreen from '../components/EditorsPickScreen';
+import TrendingMovies from '../components/TrendingMovies';
 
 
 
@@ -19,7 +22,9 @@ const HomeScreen = ({navigation}:any) => {
   <Card rating={0}/>
  <Genres navigation={navigation}/>
 
-
+<ComingSoonScreen/>
+<EditorsPickScreen/>
+<TrendingMovies/>
     </ScrollView>
 
   );

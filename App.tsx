@@ -14,6 +14,7 @@ import {store} from './src/store/store';
 import LoginScreen from './src/screens/Auth/LoginScreen';
 import Register from './src/screens/Auth/Register';
 import OnBoardingScreen from './src/screens/OnBoardingScreen';
+import SplashScreen from './src/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -36,7 +37,10 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+      >
+       
+        <Stack.Screen name="SplashScreen" component={SplashScreen} options={{headerShown: false}}/>
         <Stack.Screen
             name="Tabs"
             component={TabNavigator}
@@ -76,21 +80,18 @@ const App = () => {
           />
 
 
-{
-  islogin ? (
     <Stack.Screen
     name="Chat"
     component={ChatScreen}
     options={{headerShown: false}}
   />
-  ) : (
+
     <Stack.Screen
     name="login"
     component={LoginScreen}
     options={{headerShown: false}}
   />
-  )
-}
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
