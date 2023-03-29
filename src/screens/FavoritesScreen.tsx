@@ -2,6 +2,8 @@ import { Text, View, Image, StyleSheet, ScrollView, TouchableOpacity } from "rea
 import React, { useEffect, useState } from "react";
 import { API_KEY } from "../services/urls";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useContext} from "react";
+
 
 const FavoritesScreen = ({ route }: any) => {
   const [movies, setMovies] = useState([]);
