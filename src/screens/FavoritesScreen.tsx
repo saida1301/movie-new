@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FavoritesScreen = ({ route }: any) => {
   const [movies, setMovies] = useState([]);
-  
+
 
 useEffect(() => {
   const fetchMovies = async () => {
@@ -26,14 +26,14 @@ useEffect(() => {
   const handleRemoveFavorite = async (movieId: string) => {
     const favoritesString = await AsyncStorage.getItem('favorites');
     let favorites = favoritesString ? JSON.parse(favoritesString) : [];
-  
+
     favorites = favorites.filter((id: string) => id !== movieId);
-  
+
     await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
-  
+
     setMovies(movies.filter((movie: any) => movie.id !== movieId));
   };
-  
+
   return (
     <ScrollView style={{backgroundColor:"black", }}>
       {movies.map((movie, index) => {
@@ -41,7 +41,7 @@ useEffect(() => {
         return (
           <View style={{marginTop:-118, marginBottom:53}}>
           <View key={`${movie.id}-${index}`} style={styles.movieContainer}>
-            <Image style={styles.posterImage} source={{ uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}` }} />
+            <Image style={styles.posterImage} source={{ uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`}} />
             <View style={{flexDirection:"column"}}>
               <Text style={styles.movieTitle}>{movie.title}</Text>
               {isFavorite && (

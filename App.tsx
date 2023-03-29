@@ -18,6 +18,7 @@ import OnBoardingScreen from './src/screens/OnBoardingScreen';
 const Stack = createNativeStackNavigator();
 const App = () => {
   const [isAppFirstLaunched, setIsAppFirstLaunched] = useState<Boolean>(false);
+  const [islogin, setislogin] = useState(false)
 
   useEffect(() => {
     const checkIfAppIsFirstLaunched = async () => {
@@ -42,7 +43,7 @@ const App = () => {
             options={{headerShown: false}}
           />
           {/* <Stack.Screen name="Onboarding" component={OnBoardingScreen} options={{headerShown: false}}/> */}
-          <Stack.Screen name="login" component={LoginScreen} options={{headerShown: false}} />
+          {/* <Stack.Screen name="login" component={LoginScreen} options={{headerShown: false}} /> */}
           <Stack.Screen name="signup" component={Register} options={{headerShown: false}} />
 
           <Stack.Screen
@@ -74,11 +75,22 @@ const App = () => {
             }}
           />
 
-          <Stack.Screen
-            name="Chat"
-            component={ChatScreen}
-            options={{headerShown: false}}
-          />
+
+{
+  islogin ? (
+    <Stack.Screen
+    name="Chat"
+    component={ChatScreen}
+    options={{headerShown: false}}
+  />
+  ) : (
+    <Stack.Screen
+    name="login"
+    component={LoginScreen}
+    options={{headerShown: false}}
+  />
+  )
+}
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -10,12 +10,10 @@ import {
   Button,
 } from 'react-native';
 import axios from 'axios';
-
 import {API_KEY} from '../services/urls';
 import WebView from 'react-native-webview';
 import AddButtons from '../components/AddButtons';
-import {TextInput} from 'react-native';
-import { colors, spacing } from '../assets/themes';
+import {colors, spacing} from '../assets/themes';
 const MAX_LINES = 3;
 const DetailsScreen = ({navigation, route}: any) => {
   const {id, movie_id} = route.params;
@@ -24,12 +22,10 @@ const DetailsScreen = ({navigation, route}: any) => {
   const [trailer, setTrailer] = useState('');
   const [reviews, setReviews] = useState([]);
   const [showFullText, setShowFullText] = useState(false);
-  const [favorite, setFavorite] = useState(false);
-  const [reviewText, setReviewText] = useState('');
-  const [reviewAuthor, setReviewAuthor] = useState('');
 
   useEffect(() => {
-    const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&append_to_response=credits,reviews&language=en-US`;
+    const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&append_to_response=credits&language=en-US
+    `;
     axios
       .get(apiUrl)
       .then(response => {
@@ -57,9 +53,9 @@ const DetailsScreen = ({navigation, route}: any) => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get(
-          `https://movieapl.onrender.com/reviews/${id}`,
+          `http://192.168.0.105:3000/review/${movie_id}`,
         );
-        setReviews(response.data.results);
+        setReviews(response.data.reviews);
       } catch (error) {
         console.log(error);
       }
@@ -72,7 +68,7 @@ const DetailsScreen = ({navigation, route}: any) => {
   };
 
   const handlePressReview = (movie_id: any, author: any) => {
-    navigation.navigate('AddReview', { movie_id, author });
+    navigation.navigate('AddReview', {movie_id, author});
   };
 
   if (!movie) {
@@ -136,7 +132,7 @@ const DetailsScreen = ({navigation, route}: any) => {
             />
           </View>
           <Text style={styles.releaseDate}> {movie.release_date}</Text>
-  
+
           <Text style={styles.overview}>{movie.overview}</Text>
           <Text style={styles.sectionHeader}>Cast</Text>
           <FlatList
@@ -147,13 +143,14 @@ const DetailsScreen = ({navigation, route}: any) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.castListContainer}
           />
-<View style={{marginTop:spacing.large}}>
-          <FlatList
-            data={movie.reviews.results.slice(0, 5)}
-            renderItem={renderReview}
-            keyExtractor={item => item.id.toString()}
-          />
-</View>
+          <View style={{marginTop: spacing.large}}>
+            <Text style={styles.sectionHeader}>Reviews</Text>
+            <FlatList
+              data={movie.reviews?.results}
+              renderItem={renderReview}
+              keyExtractor={item => item.id.toString()}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -208,7 +205,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     borderRadius: 25,
     marginRight: 10,
-
   },
   reviewContainer: {
     marginBottom: 20,
