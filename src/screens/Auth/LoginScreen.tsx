@@ -14,9 +14,10 @@ const LoginScreen = ({navigation}: any) => {
   const authState = useSelector((state: StoreType) => state.auth);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const submit = async () => {
+    setIsLoading(true);
     await dispatch(
       login({
         email: email,
@@ -24,42 +25,18 @@ const LoginScreen = ({navigation}: any) => {
       }),
     );
   };
-  useEffect(() => {
-    authState.response.statusCode == 200 ? navigation.navigate('Home') : null;
-  }, [authState.response.statusCode]);
-
-  useEffect(() => {
-    AsyncStorage.getItem('isLoggedIn')
-      .then(isLoggedIn => {
-        if (isLoggedIn === 'true') {
-          navigation.navigate('Home');
-        }
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.error(error);
-        setIsLoading(false);
-      });
-  }, []);
 
   useEffect(() => {
     if (authState.loading === false) {
+      setIsLoading(false);
       if (authState.response.statusCode === 200) {
         AsyncStorage.setItem('isLoggedIn', 'true');
-        navigation.navigate('Home');
+        navigation.navigate('Tabs');
       } else if (authState.response.statusCode === 404) {
         console.log('Something is wrong');
       }
     }
   }, [authState.loading]);
-
-  if (isLoading) {
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
 
   return (
     <View style={styles.container}>
@@ -99,7 +76,7 @@ const LoginScreen = ({navigation}: any) => {
 
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <Text style={{color: 'blue'}}>Hesabınız yok mu? </Text>
-        <Pressable onPress={() => navigation.navigate('Signup')}>
+        <Pressable onPress={() => navigation.navigate('signup')}>
           <Text style={{color: 'blue'}}>Kayıt Ol</Text>
         </Pressable>
       </View>

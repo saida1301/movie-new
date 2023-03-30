@@ -17,6 +17,7 @@ import {colors, spacing} from '../assets/themes';
 const MAX_LINES = 3;
 const DetailsScreen = ({navigation, route}: any) => {
   const {id, movie_id} = route.params;
+  
   const [isFavorite, setIsFavorite] = useState(false);
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState('');
@@ -25,7 +26,7 @@ const DetailsScreen = ({navigation, route}: any) => {
 
   useEffect(() => {
     const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&append_to_response=credits&language=en-US
-    `;
+      `;
     axios
       .get(apiUrl)
       .then(response => {
@@ -36,39 +37,47 @@ const DetailsScreen = ({navigation, route}: any) => {
         console.log(error);
       });
   }, [id]);
+  
   useEffect(() => {
     const fetchTrailer = async () => {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`,
-      );
-      if (response.data.results.length > 0) {
-        const trailerKey = response.data.results[0].key;
-        setTrailer(`https://www.youtube.com/embed/${trailerKey}`);
+      try {
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`,
+        );
+        if (response.data.results.length > 0) {
+          const trailerKey = response.data.results[0].key;
+          setTrailer(`https://www.youtube.com/embed/${trailerKey}`);
+        }
+      } catch (error) {
+        console.log(error);
       }
     };
     fetchTrailer();
   }, [id]);
+  
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(
-          `http://192.168.0.105:3000/review/${movie_id}`,
-        );
-        setReviews(response.data.reviews);
+        console.log('movie_id:', movie_id);
+        const response = await axios.get(`http://192.168.0.105:3000/reviews/${movie_id}`);        
+        const reviewsData = response.data;
+        setReviews(reviewsData);
       } catch (error) {
         console.log(error);
       }
     };
     fetchReviews();
   }, [movie_id]);
+  
+
 
   const handleHeartPress = (movieId: any) => {
     setFavorite(!isFavorite);
   };
 
-  const handlePressReview = (movie_id: any, author_id: any) => {
-    navigation.navigate('AddReview', {movie_id, author_id});
+  const handlePressReview = (movie_id: any, author: any) => {
+    navigation.navigate('AddReview', {movie_id, author});
   };
 
   if (!movie) {
@@ -87,6 +96,11 @@ const DetailsScreen = ({navigation, route}: any) => {
   };
 
   const renderReview = ({item}: any) => {
+
+    <View style={styles.reviewContainer}>
+    <Text style={styles.reviewAuthor}>{item.author}</Text>
+    <Text style={styles.reviewContent}>{item.content}</Text>
+  </View>
     const toggleFullText = () => {
       setShowFullText(!showFullText);
     };
@@ -146,7 +160,7 @@ const DetailsScreen = ({navigation, route}: any) => {
           <View style={{marginTop: spacing.large}}>
             <Text style={styles.sectionHeader}>Reviews</Text>
             <FlatList
-              data={movie.reviews?.results}
+              data={reviews}
               renderItem={renderReview}
               keyExtractor={item => item.id.toString()}
             />

@@ -1,41 +1,56 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import axios from 'axios';
+import React, { useRef, useState } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Animated } from 'react-native';
+import LottieView from 'lottie-react-native';
 
+import SuccessAnimation from '../animations/success.json';
 
-const AddReview = ({ route }) => {
+type Props = {
+  route: any;
+  isVisible: boolean;
+  onClose: () => void;
+};
+
+const AddReview = ({ route, isVisible, onClose }: Props) => {
   const [rating, setRating] = useState('');
   const [content, setContent] = useState('');
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
-const handleLogin = (userData: React.SetStateAction<null>) => {
-  setCurrentUser(userData);
-};
+  const handleLogin = (userData: React.SetStateAction<null>) => {
+    setCurrentUser(userData);
+  };
 
-  const { movie_id, author_id } = route.params;
- 
+  const { movie_id, author } = route.params;
+
+  console.log("route.params", route.params);
+
   const postReview = async () => {
     try {
-      const response = await fetch('http://192.168.0.105:3000/reviews', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ movie_id, author: author_id, content }),
-      });
+      const response = await axios.post(
+        'http://192.168.0.105:3000/reviews',
+        { movie_id, author, content },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
   
-     if (!response.ok) {
+      if (!response.status === 200) {
         throw new Error('Something went wrong');
       }
   
-      const data = await response.json();
+      const data = response.data;
       console.log(data);
+  
       setIsSuccessModalVisible(true);
+      setTimeout(() => {
+        setIsSuccessModalVisible(false);
+           setContent('');
+
+      }, 1000); 
     } catch (error) {
       console.log(error);
     }
   };
-  
   
 
   return (
@@ -51,21 +66,15 @@ const handleLogin = (userData: React.SetStateAction<null>) => {
       <TouchableOpacity style={styles.button} onPress={postReview}>
         <Text style={styles.buttonText}>Submit Review</Text>
       </TouchableOpacity>
-      <Modal
-        visible={isSuccessModalVisible}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => setIsSuccessModalVisible(false)}
-      >
+      <Modal visible={isSuccessModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modal}>
-            <Text style={styles.modalText}>Review added successfully!</Text>
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={() => setIsSuccessModalVisible(false)}
-            >
-              <Text style={styles.modalButtonText}>OK</Text>
-            </TouchableOpacity>
+            <LottieView
+              source={SuccessAnimation}
+              style={styles.animation}
+              autoPlay={true}
+              loop={false}
+            />
           </View>
         </View>
       </Modal>
@@ -76,15 +85,9 @@ const handleLogin = (userData: React.SetStateAction<null>) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 30,
-    justifyContent:"center",
-    backgroundColor:"#1c1c1c"
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    padding: 20,
+    backgroundColor: '#1c1c1c',
+    justifyContent: 'center',
   },
   input: {
     borderWidth: 1,
@@ -92,6 +95,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 20,
+    color: '#fff',
   },
   button: {
     backgroundColor: '#0080ff',
@@ -109,6 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#000',
   },
   modalButton: {
     backgroundColor: '#0080ff',
@@ -129,22 +134,21 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
- modalButtonText: {
+  modalButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
-    textAlign: 'center',
   },
-})
+
+  animation: {
+    width: 150,
+    height: 150,
+  },
+
+});
+
+
 
 
 export default AddReview;

@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
   container: {
     height: 300,
     marginVertical: 10,
-    backgroundColor:"black"
+    backgroundColor:"black",
+    marginBottom:20
   },
   slide: {
     width: windowWidth,
@@ -72,12 +73,12 @@ const styles = StyleSheet.create({
     height: 200,
     resizeMode: 'contain',
     borderRadius: 10,
-    marginBottom: 10,
+    marginTop: 10,
   },
   title: {
     fontWeight: 'bold',
     fontSize: 20,
-    marginBottom: 5,
+    marginBottom: 10,
     textAlign: 'center',
   },
   overview: {

@@ -27,6 +27,7 @@ const EditorsPick = ({ movies }: any) => {
               </View>
               <View style={styles.infoContainer}>
                 <Text style={styles.subtitle}>{item.vote_average}</Text>
+                <Text style={styles.title}>{item.title}</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 160,
     height: 220,
-    borderRadius: 10,
+    borderBottomRightRadius:10,
     overflow: "hidden",
   },
   image: {
@@ -73,8 +74,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   title: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 10,
+    textAlign: 'center',
+    color:"black"
   },
   subtitle: {
     fontSize: 14,

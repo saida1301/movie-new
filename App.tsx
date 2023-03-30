@@ -19,7 +19,7 @@ import SplashScreen from './src/SplashScreen';
 const Stack = createNativeStackNavigator();
 const App = () => {
   const [isAppFirstLaunched, setIsAppFirstLaunched] = useState<Boolean>(false);
-  const [islogin, setislogin] = useState(false)
+  const [islogin, setislogin] = useState(false);
 
   useEffect(() => {
     const checkIfAppIsFirstLaunched = async () => {
@@ -38,19 +38,21 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-        initialRouteName="SplashScreen"
-        screenOptions={{ headerShown: false }}
-      >
-             <Stack.Screen
+          initialRouteName="SplashScreen"
+          screenOptions={{headerShown: false}}>
+          <Stack.Screen
             name="Tabs"
             component={TabNavigator}
             options={{headerShown: false}}
           />
-        <Stack.Screen name="SplashScreen" component={SplashScreen} />
-   
-          {/* <Stack.Screen name="Onboarding" component={OnBoardingScreen} options={{headerShown: false}}/> */}
-          {/* <Stack.Screen name="login" component={LoginScreen} options={{headerShown: false}} /> */}
-          <Stack.Screen name="signup" component={Register} options={{headerShown: false}} />
+          <Stack.Screen name="SplashScreen" component={SplashScreen} />
+          <Stack.Screen name="Onboarding" component={OnBoardingScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="login" component={LoginScreen} options={{headerShown: false}} />
+          <Stack.Screen
+            name="signup"
+            component={Register}
+            options={{headerShown: false}}
+          />
 
           <Stack.Screen
             name="Home"
@@ -81,19 +83,11 @@ const App = () => {
             }}
           />
 
-
-    <Stack.Screen
-    name="Chat"
-    component={ChatScreen}
-    options={{headerShown: false}}
-  />
-
-    <Stack.Screen
-    name="login"
-    component={LoginScreen}
-    options={{headerShown: false}}
-  />
-
+          <Stack.Screen
+            name="Chat"
+            component={ChatScreen}
+            options={{headerShown: false}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

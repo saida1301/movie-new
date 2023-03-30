@@ -115,7 +115,7 @@ const OnBoardingScreen = ({navigation} ) => {
                 style={styles.btn}
            
                 onPress={() =>
-                  navigation.navigate('Home')
+                  navigation.navigate('login')
                 }>
                 <Text style={{fontWeight: 'bold', fontSize: 15}}>
                   GET STARTED
@@ -166,7 +166,6 @@ const OnBoardingScreen = ({navigation} ) => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.primary}}>
-      <StatusBar backgroundColor={colors.primary} />
       <FlatList
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlideIndex}

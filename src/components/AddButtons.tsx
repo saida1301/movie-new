@@ -4,7 +4,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 
-const AddButtons = ({movieId, onPressReview}: any) => {
+const AddButtons = ({movie_id, onPressReview, author}: any) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const navigation = useNavigation();
 
@@ -12,22 +12,22 @@ const AddButtons = ({movieId, onPressReview}: any) => {
     const favoritesString = await AsyncStorage.getItem('favorites');
     let favorites = favoritesString ? JSON.parse(favoritesString) : [];
   
-    if (favorites.includes(movieId)) {
-      favorites = favorites.filter((id: number) => id !== movieId);
+    if (favorites.includes(movie_id)) {
+      favorites = favorites.filter((id: number) => id !== movie_id);
     } else {
-      favorites.push(movieId);
+      favorites.push(movie_id);
     }
   
     await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
   
-    setIsFavorite(favorites.includes(movieId));
+    setIsFavorite(favorites.includes(movie_id));
     navigation.navigate("Favorites", {favorites});
   };
   
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => onPressReview(movieId)}>
+      <TouchableOpacity onPress={() => onPressReview(movie_id, author="Saida")}>
         <Text style={[styles.button, {color: 'white'}]}>+</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleFavoritePress}>

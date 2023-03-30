@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: 'https://movieapl.onrender.com/'
+    baseURL: 'http://192.168.0.105:3000/'
 })

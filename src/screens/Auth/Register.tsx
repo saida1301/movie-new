@@ -25,7 +25,7 @@ const Register = ({navigation}: any) => {
     );
   };
   useEffect(() => {
-    authState.response.statusCode == 200 ? navigation.navigate('Home') : null;
+    authState.response.statusCode == 200 ? navigation.navigate('login') : null;
   }, [authState.response.statusCode]);
 
   return (

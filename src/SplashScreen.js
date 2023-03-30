@@ -10,7 +10,7 @@ const SplashScreen = ({ navigation }) => {
       duration: 6000,
       useNativeDriver: true,
     }).start(() => {
-      navigation.replace('Home');
+      navigation.replace('Onboarding');
     });
   }, [fadeAnim, navigation]);
 
