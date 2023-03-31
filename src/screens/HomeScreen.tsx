@@ -9,6 +9,7 @@ import AddReview from './AddReview';
 import ComingSoonScreen from '../components/ComingSoonScreen';
 import EditorsPickScreen from '../components/EditorsPickScreen';
 import TrendingMovies from '../components/TrendingMovies';
+import BestMovies from '../components/BestMovies';
 
 
 
@@ -25,6 +26,7 @@ const HomeScreen = ({navigation}:any) => {
 <ComingSoonScreen/>
 <EditorsPickScreen/>
 <TrendingMovies/>
+<BestMovies/>
     </ScrollView>
 
   );

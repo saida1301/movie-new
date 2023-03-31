@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { API_KEY } from '../services/urls';
+import { borderRadius, colors, fontSizes, spacing } from '../assets/themes';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -31,7 +32,7 @@ const TrendingMovies = () => {
             uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
           }}
         />
-        <Text style={styles.title}>{item.title}</Text>
+
       </View>
         </TouchableOpacity>
     );
@@ -40,7 +41,7 @@ const TrendingMovies = () => {
   return (
 
     <View style={styles.container}>
-        <Text style={{fontSize:20, fontWeight:"bold", color:"white", marginLeft:20, margin:20}}>Trending Movies</Text>
+        <Text style={styles.header}>Trending Movies</Text>
       <FlatList
         data={trendingMovies}
         keyExtractor={(item) => item.id.toString()}
@@ -59,31 +60,27 @@ const TrendingMovies = () => {
 const styles = StyleSheet.create({
   container: {
     height: 300,
-    marginVertical: 10,
-    backgroundColor:"black",
-    marginBottom:20
+    marginVertical: spacing.large,
+    backgroundColor:colors.black,
+    padding: spacing.small,
   },
+  header: {
+    fontSize: fontSizes.medium,
+    fontWeight: 'bold',
+    marginBottom: spacing.small,
+    color: colors.white,
+    },
   slide: {
-    width: windowWidth,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: windowWidth/2,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
   },
   image: {
     width: '80%',
     height: 200,
     resizeMode: 'contain',
-    borderRadius: 10,
-    marginTop: 10,
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  overview: {
-    fontSize: 16,
-    textAlign: 'center',
+    borderRadius: borderRadius.small,
+    marginTop: spacing.small,
   },
 });
 

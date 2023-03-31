@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { API_KEY } from '../services/urls';
+import { borderRadius, spacing } from '../assets/themes';
 
 const SearchScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -91,18 +92,18 @@ const styles = StyleSheet.create({
     width: '80%',
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: 20,
-    paddingLeft: 10,
-    marginBottom: 10,
-    marginRight:10,
+    borderRadius: borderRadius.large,
+    paddingLeft: spacing.small,
+    marginBottom: spacing.small,
+    marginRight: spacing.small,
   },
   searchButton: {
     height: 30,
-    marginLeft:10,
+    marginLeft: spacing.small,
   },
   container: {
     flex: 1,
-    padding: 10,
+    padding: spacing.small,
 
   },
 });

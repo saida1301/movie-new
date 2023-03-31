@@ -11,7 +11,7 @@ import {
 import axios from 'axios';
 import {API_KEY} from '../services/urls';
 
-import {borderRadius, colors, fontSizes} from '../assets/themes';
+import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
 
 interface Movie {
   vote_average: number;
@@ -69,8 +69,8 @@ const Genres = ({navigation}: any) => {
               {
                 borderColor:
                   item.vote_average >= 5 && item.vote_average < 7
-                    ? 'red'
-                    : 'black',
+                    ? colors.primary
+                    : colors.black,
               },
             ]}>{`${item.vote_average}`}</Text>
         </TouchableOpacity>
@@ -129,13 +129,7 @@ const Genres = ({navigation}: any) => {
           style={styles.button}>
           <Text>Animations</Text>
         </TouchableOpacity>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginLeft: 120,
-            gap: 10,
-            alignItems: 'center',
-          }}>
+        <View style={styles.arrow}>
           <Pressable onPress={() => setPage(page - 1)}>
             <Text style={{fontSize: 22}}>&#8592;</Text>
           </Pressable>
@@ -153,50 +147,44 @@ const Genres = ({navigation}: any) => {
 export default Genres;
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 20,
+    marginVertical: spacing.large,
+    paddingHorizontal: spacing.small
+  },
+  arrow: {
+    flexDirection: 'row',
+    marginLeft: 120,
+    gap: spacing.small,
+    alignItems: 'center',
   },
   image: {
     width: 180,
     height: 225,
-    margin: 10,
+    margin: spacing.small,
   },
   button: {
-    backgroundColor: '#333',
-    borderRadius: 10,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    marginRight: 10,
+    backgroundColor: colors.gray[500],
+    borderRadius: borderRadius.small,
+    paddingVertical: spacing.small,
+    paddingHorizontal: spacing.small,
+    marginRight: spacing.small,
   },
   selectedButton: {
-    backgroundColor: '#f00',
-  },
-  text: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    backgroundColor: colors.gray[500],
   },
   movieContainer: {
-    marginVertical: 20,
+    marginVertical: spacing.large,
     flex: 1,
-  },
-  movieTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  movieOverview: {
-    fontSize: 14,
   },
   rating: {
     fontSize: fontSizes.medium,
-    margin: 20,
+    margin: spacing.large,
     alignSelf: 'flex-start',
     color: colors.white,
     justifySelf: 'flex-start',
     position: 'absolute',
     backgroundColor: 'rgba(26,25,31,0.6)',
     top: 0,
-    padding: 7,
+    padding: spacing.small,
     borderRadius: borderRadius.large,
     borderWidth: 1,
     borderColor: colors.white,

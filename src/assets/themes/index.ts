@@ -3,7 +3,18 @@ export const colors = {
     secondary: '#FFC107',
     white: '#FFFFFF',
     black: '#000000',
-    heart:'#F13939'
+    heart:'#F13939',
+    gray:{
+        100:'#F2F2F2',
+        200:'#E5E5E5',
+        300:'#D8D8D8',
+        400:'#CBCBCB',
+        500:'#BDBDBD',
+        600:'#B0B0B0',
+        700:'#A3A3A3',
+        800:'#969696',
+        900:'#898989',
+    },
 };
 export const fontSizes = {
     small: 12,
@@ -14,7 +25,8 @@ export const fontSizes = {
 export const spacing = {
     small: 8,
     medium: 16,
-    large: 24,
+    large: 20,
+    xlarge: 26
 };
 
 export const fonts = {
@@ -27,40 +39,11 @@ export const fontWeights = {
     bold: '800',
 };
 
-export const lightColors = {
-    ...colors,
-    background: '#FFFFFF',
-    text: '#000000',
-};
-export const darkColors = {
-    ...colors,
-    background: '#000000',
-    text: '#FFFFFF',
-};
-
-export const lightStyles = {
-    container: {
-        backgroundColor: lightColors.background,
-    },
-    text: {
-        color: lightColors.text,
-    },
-};
-
 export const borderRadius = {
-    small: 12,
+    small: 10,
     medium: 15,
     large: 20,
 
 };
 
-
-export const darkStyles = {
-    container: {
-        backgroundColor: darkColors.background,
-    },
-    text: {
-        color: darkColors.text,
-    },
-};
 

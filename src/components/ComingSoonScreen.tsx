@@ -3,6 +3,7 @@ import { API_KEY } from '../services/urls';
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { fontSizes, spacing } from '../assets/themes';
 
 const ComingSoonScreen = () => {
   const [movies, setMovies] = useState([]);
@@ -15,7 +16,7 @@ const navigation = useNavigation();
           `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`
         );
         const now = new Date();
-        const filteredMovies = response.data.results.filter(movie => {
+        const filteredMovies = response.data.results.filter((movie: { release_date: string | number | Date; }) => {
           const releaseDate = new Date(movie.release_date);
           return releaseDate > now;
         });
@@ -29,7 +30,7 @@ const navigation = useNavigation();
   }, []);
 
 
-  const renderMovie = ({ item }) => {
+  const renderMovie = ({ item }:any) => {
     return (
       <TouchableOpacity
       onPress={() => navigation.navigate('Details', {id: item.id})}>
@@ -71,43 +72,39 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'black',
-    padding: 10,
+    padding: spacing.small,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: fontSizes.large,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 20,
+    marginBottom: spacing.large,
   },
   movieContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 20,
-    paddingHorizontal: 10,
+    paddingVertical: spacing.small,
+    paddingHorizontal: spacing.medium,
   },
   moviePoster: {
     width: 80,
     height: 120,
-    marginRight: 20,
+    marginRight: spacing.medium,
   },
   movieDetails: {
     flex: 1,
   },
   movieTitle: {
-    fontSize: 20,
+    fontSize: fontSizes.medium,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 5,
+    marginBottom: spacing.small,
     maxWidth: 200,
   },
   movieReleaseDate: {
-    fontSize: 16,
+    fontSize: fontSizes.medium,
     color: '#ccc',
-    marginBottom: 10,
-  },
-  movieOverview: {
-    fontSize: 14,
-    color: '#ccc',
+    marginBottom: spacing.small,
   },
 });
 

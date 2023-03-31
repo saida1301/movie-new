@@ -4,6 +4,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
+import { borderRadius, fontSizes, spacing } from '../assets/themes';
 
 const AddButtons = ({movie_id, onPressReview}: any) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -87,10 +88,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    paddingVertical: 5,
-    paddingHorizontal: 8,
-    borderRadius: 10,
-    fontSize: 22,
+    paddingVertical: spacing.small,
+    paddingHorizontal: spacing.small,
+    borderRadius: borderRadius.small,
+    fontSize: fontSizes.large,
     fontWeight: 'bold',
   },
 });

@@ -5,7 +5,6 @@ import {TextInput} from 'react-native-paper';
 import {login} from '../../store/redux/authSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, StoreType} from '../../store/store';
-import Header from '../../components/Header';
 import {colors} from '../../assets/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

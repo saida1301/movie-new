@@ -3,7 +3,6 @@ import { ActivityIndicator } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import MovieCard from "../components/MovieCard";
 import moment from "moment";
 
 const FavoritesScreen = () => {
