@@ -21,10 +21,31 @@ const LoginScreen = ({navigation}: any) => {
     await dispatch(
       login({
         email: email,
-        password: '',
+        password: password,
       }),
     );
+    setIsLoading(false);
   };
+  
+  useEffect(() => {
+    if (authState.loading === false) {
+      if (authState.response.statusCode === 200) {
+        AsyncStorage.setItem('isLoggedIn', 'true');
+        navigation.navigate('Tabs');
+      }
+    }
+  }, [authState.loading]);
+  
+  useEffect(() => {
+    const checkLoggedInStatus = async () => {
+      const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+      if (isLoggedIn === 'true') {
+        navigation.navigate('Tabs');
+      }
+    };
+    checkLoggedInStatus();
+  }, []);
+  
 
   useEffect(() => {
     if (authState.loading === false) {

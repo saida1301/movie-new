@@ -1,33 +1,55 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
 
-const AddButtons = ({movie_id, onPressReview, author}: any) => {
+const AddButtons = ({movie_id, onPressReview}: any) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [author, setAuthor] = useState('');
+  const [id, setUserId] = useState('4');
   const navigation = useNavigation();
+
+  useEffect(() => {
+    axios.get(`http://192.168.0.105:3000/user/${id}`)
+      .then((response) => {
+        const { name } = response.data;
+        setAuthor(name);
+      })
+      .catch((error) => console.error(error));     
+  }, []);
+  
+  
 
   const handleFavoritePress = async () => {
     const favoritesString = await AsyncStorage.getItem('favorites');
     let favorites = favoritesString ? JSON.parse(favoritesString) : [];
-  
+
     if (favorites.includes(movie_id)) {
       favorites = favorites.filter((id: number) => id !== movie_id);
     } else {
       favorites.push(movie_id);
     }
-  
+
     await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
-  
+
     setIsFavorite(favorites.includes(movie_id));
-    navigation.navigate("Favorites", {favorites});
+    navigation.navigate('Favorites', {favorites});
   };
-  
+
+
+  useEffect(() => {
+    AsyncStorage.getItem('userId')
+      .then((id) => {
+        return setUserId(id);
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => onPressReview(movie_id, author="Saida")}>
+      <TouchableOpacity onPress={() => onPressReview(movie_id, author)}>
         <Text style={[styles.button, {color: 'white'}]}>+</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleFavoritePress}>

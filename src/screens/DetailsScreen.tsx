@@ -23,6 +23,8 @@ const DetailsScreen = ({navigation, route}: any) => {
   const [trailer, setTrailer] = useState('');
   const [reviews, setReviews] = useState([]);
   const [showFullText, setShowFullText] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [reviewsPerPage, setReviewsPerPage] = useState(10);
 
   useEffect(() => {
     const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&append_to_response=credits&language=en-US
@@ -59,8 +61,8 @@ const DetailsScreen = ({navigation, route}: any) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        console.log('movie_id:', movie_id);
-        const response = await axios.get(`http://192.168.0.105:3000/reviews/${movie_id}`);        
+        console.log('movie_id:', id, 'currentPage:', currentPage, 'reviewsPerPage:', reviewsPerPage);
+        const response = await axios.get(`http://192.168.0.105:3000/reviews/${id}?page=${currentPage}&limit=${reviewsPerPage}`);
         const reviewsData = response.data;
         setReviews(reviewsData);
       } catch (error) {
@@ -68,7 +70,7 @@ const DetailsScreen = ({navigation, route}: any) => {
       }
     };
     fetchReviews();
-  }, [movie_id]);
+  }, [id, currentPage, reviewsPerPage]);
   
 
 
@@ -94,36 +96,28 @@ const DetailsScreen = ({navigation, route}: any) => {
       </View>
     );
   };
-
   const renderReview = ({item}: any) => {
-
-    <View style={styles.reviewContainer}>
-    <Text style={styles.reviewAuthor}>{item.author}</Text>
-    <Text style={styles.reviewContent}>{item.content}</Text>
-  </View>
     const toggleFullText = () => {
       setShowFullText(!showFullText);
     };
     return (
-      <>
-        <View style={styles.reviewContainer}>
-          <Text style={styles.reviewAuthor}>{item.author}</Text>
-          <TouchableOpacity
-            onPress={toggleFullText}
-            style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            <Text
-              numberOfLines={showFullText ? undefined : MAX_LINES}
-              ellipsizeMode="tail"
-              style={styles.reviewContent}>
-              {item.content}
-            </Text>
-            {!showFullText && <Text style={{color: colors.primary}}>more</Text>}
-          </TouchableOpacity>
-        </View>
-      </>
+      <View style={styles.reviewContainer}>
+        <Text style={styles.reviewAuthor}>{item.author}</Text>
+        <TouchableOpacity
+          onPress={toggleFullText}
+          style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+          <Text
+            numberOfLines={showFullText ? undefined : MAX_LINES}
+            ellipsizeMode="tail"
+            style={styles.reviewContent}>
+            {item.content}
+          </Text>
+          {!showFullText && <Text style={{color: colors.primary}}>more</Text>}
+        </TouchableOpacity>
+      </View>
     );
   };
-
+  
   return (
     <ScrollView style={styles.container}>
       <View style={styles.container}>
@@ -162,7 +156,7 @@ const DetailsScreen = ({navigation, route}: any) => {
             <FlatList
               data={reviews}
               renderItem={renderReview}
-              keyExtractor={item => item.id.toString()}
+              keyExtractor={item => item.id}
             />
           </View>
         </View>
