@@ -1,63 +1,87 @@
+import React, {useState, useEffect} from 'react';
+import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import axios from 'axios';
 
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-
-const MyReviewsScreen = ({ id }:any) => {
+const MyReviewsScreen = ({userName}: any) => {
   const [reviews, setReviews] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await fetch(`http://192.168.0.105:3000/review/${id}`);
-        const data = await response.json();
-        setReviews(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchReviews();
-  }, [id]);
+    axios
+      .get(`http://192.168.0.105:3000/review/user/Saida`)
+      .then(response => setReviews(response.data))
+      .catch(error => setError(error));
+  }, [userName]);
 
-  const renderItem = ({ item }:any) => (
+  if (error) {
+    return <Text>{error.message}</Text>;
+  }
+
+  const renderItem = ({item}: any) => (
     <View style={styles.review}>
-      <Text style={styles.movieTitle}>{item.title}</Text>
       <Text style={styles.content}>{item.content}</Text>
-      <Text style={styles.date}>{item.created_at}</Text>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Edit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Delete</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
   return (
-    <FlatList
-      data={reviews}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
-      style={styles.list}
-    />
+    <View style={styles.container}>
+      <FlatList
+        data={reviews}
+        renderItem={renderItem}
+        keyExtractor={item => item.id.toString()}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  list: {
-    marginTop: 20,
+  container: {
+    flex: 1,
+    padding: 10,
   },
   review: {
-    backgroundColor: '#fff',
     padding: 10,
+    marginVertical: 5,
+    backgroundColor: '#fff',
     borderRadius: 5,
-    marginBottom: 10,
+    color: 'black',
+    justifyContent: 'center',
   },
-  movieTitle: {
+  author: {
     fontWeight: 'bold',
-    fontSize: 16,
     marginBottom: 5,
+    color: 'black',
   },
   content: {
-    fontSize: 14,
-    marginBottom: 5,
+    fontSize: 16,
+    color: 'black',
+    justifyContent: 'center',
   },
-  date: {
-    fontSize: 12,
-    color: '#999',
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 5,
+
+  },
+  button: {
+    backgroundColor: 'red',
+    padding: 5,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 5,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
 

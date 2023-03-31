@@ -4,6 +4,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Animated } 
 import LottieView from 'lottie-react-native';
 
 import SuccessAnimation from '../animations/success.json';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   route: any;
@@ -15,14 +16,11 @@ const AddReview = ({ route, isVisible, onClose }: Props) => {
   const [rating, setRating] = useState('');
   const [content, setContent] = useState('');
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  const handleLogin = (userData: React.SetStateAction<null>) => {
-    setCurrentUser(userData);
-  };
 
-  const { movie_id, author } = route.params;
+  const { movie_id, author} = route.params;
 
   console.log("route.params", route.params);
 

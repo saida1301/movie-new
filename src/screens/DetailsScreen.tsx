@@ -16,7 +16,7 @@ import AddButtons from '../components/AddButtons';
 import {colors, spacing} from '../assets/themes';
 const MAX_LINES = 3;
 const DetailsScreen = ({navigation, route}: any) => {
-  const {id, movie_id} = route.params;
+  const {id, movie_id, author} = route.params;
   
   const [isFavorite, setIsFavorite] = useState(false);
   const [movie, setMovie] = useState(null);
@@ -24,7 +24,8 @@ const DetailsScreen = ({navigation, route}: any) => {
   const [reviews, setReviews] = useState([]);
   const [showFullText, setShowFullText] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [reviewsPerPage, setReviewsPerPage] = useState(10);
+  const [reviewsPerPage, setReviewsPerPage] = useState(25);
+  
 
   useEffect(() => {
     const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&append_to_response=credits&language=en-US
@@ -72,7 +73,6 @@ const DetailsScreen = ({navigation, route}: any) => {
     fetchReviews();
   }, [id, currentPage, reviewsPerPage]);
   
-
 
   const handleHeartPress = (movieId: any) => {
     setFavorite(!isFavorite);
