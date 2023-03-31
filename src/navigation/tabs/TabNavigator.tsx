@@ -1,15 +1,18 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../screens/HomeScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MyReviewsScreen from '../../screens/MyReviewsScreen';
 import ChatScreen from '../../screens/ChatScreen';
+import FavoritesScreen from '../../screens/FavoritesScreen';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  const navigation = useNavigation();
   return (
     <>
       <Tab.Navigator
@@ -53,6 +56,20 @@ const TabNavigator = () => {
             ),
           })}
         />
+ <Tab.Screen
+  name="Favorites"
+  component={FavoritesScreen}
+  options={{
+    headerStyle: {
+      backgroundColor: '#1c1c1c',
+    },
+    headerTintColor: 'white',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  }}
+/>
+
       </Tab.Navigator>
     </>
   );

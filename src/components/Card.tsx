@@ -25,7 +25,7 @@ const Card = ({rating}: any) => {
       <Image
         source={{uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`}}
         style={styles.image}
-        resizeMode="contain" // add this line to fit the image to the card
+        resizeMode="contain"
       />
 
       <Text

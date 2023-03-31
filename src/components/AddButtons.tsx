@@ -23,20 +23,35 @@ const AddButtons = ({movie_id, onPressReview}: any) => {
   
 
   const handleFavoritePress = async () => {
+    const userId = await AsyncStorage.getItem('4');
+  
+    const data = {
+      movie_id: movie_id,
+      user_id: 4,
+    };
+  
+    try {
+      const response = await axios.post('http://192.168.0.105:3000/favorites', data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  
     const favoritesString = await AsyncStorage.getItem('favorites');
     let favorites = favoritesString ? JSON.parse(favoritesString) : [];
-
+  
     if (favorites.includes(movie_id)) {
       favorites = favorites.filter((id: number) => id !== movie_id);
     } else {
       favorites.push(movie_id);
     }
-
+  
     await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
-
+  
     setIsFavorite(favorites.includes(movie_id));
     navigation.navigate('Favorites', {favorites});
   };
+  
 
 
   useEffect(() => {

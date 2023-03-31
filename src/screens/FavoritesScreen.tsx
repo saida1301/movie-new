@@ -1,87 +1,120 @@
-import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import React, { useEffect, useState, useContext } from "react";
-import { API_KEY } from "../services/urls";
+import { StyleSheet, FlatList, View, Image, Text, TouchableOpacity } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FavoritesContext } from "../store/FavoritesContext";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import MovieCard from "../components/MovieCard";
+import moment from "moment";
 
 const FavoritesScreen = () => {
-  const { favorites, setFavorites } = useContext(FavoritesContext);
-  const [movies, setMovies] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const getFavorites = async () => {
+    const userId = await AsyncStorage.getItem('userId');
+
+    axios.get(`http://192.168.0.105:3000/favorites/4`)
+      .then((response) => {
+        setFavorites(response.data);
+        setLoading(false);
+      })
+      .catch((error) => console.error(error));     
+  };
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      const movieData = await Promise.all(
-        favorites.map((movie_id: string) =>
-          fetch(`https://api.themoviedb.org/3/movie/${movie_id}?api_key=${API_KEY}`).then((response) =>
-            response.json()
-          )
-        )
-      );
-      setMovies(movieData);
-    };
-    fetchMovies();
-  }, [favorites]);
+    getFavorites();
+  }, []);
 
-  const handleRemoveFavorite = async (movieId: string) => {
-    let newFavorites = favorites.filter((id: string) => id !== movieId);
-    await AsyncStorage.setItem('favorites', JSON.stringify(newFavorites));
-    setFavorites(newFavorites);
-  };
 
-  const renderItem = ({ item }: { item: any }) => {
-    const isFavorite = favorites.includes(item.id);
-    return (
-      <View key={`${item.id}`} style={styles.movieContainer}>
-        <Image style={styles.posterImage} source={{ uri: `https://image.tmdb.org/t/p/w500/${item.poster_path}`}} />
-        <View style={{flexDirection:"column"}}>
-          <Text style={styles.movieTitle}>{item.title}</Text>
-          {isFavorite && (
-            <TouchableOpacity onPress={() => handleRemoveFavorite(item.id)}>
-              <Text style={styles.removeFavorite}>Remove</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      </View>
-    );
+  const removeFavorite = async (userId: any, movieId: any) => {
+    try {
+      await axios.delete(`http://192.168.0.105:3000/favorites/4/${movieId}`);
+      const updatedFavorites = favorites.filter((movie) => movie.id !== movieId);
+      setFavorites(updatedFavorites);
+    } catch (error) {
+      console.error(error);
+    }
   };
+  
+
+  if (loading) {
+    return <ActivityIndicator size="large" />;
+  }
 
   return (
     <FlatList
-      style={{backgroundColor:"black"}}
-      data={movies}
-      keyExtractor={(item) => item.id?.toString()}
-      renderItem={renderItem}
+      data={favorites}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({item}) => (
+
+          <View style={styles.baseContainer}>
+            <View style={styles.container}>
+              <Image
+                source={{
+                  uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+                }}
+                style={styles.image}
+                resizeMode="contain"
+              />
+              <View style={styles.details}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.title}>
+                  {moment(item.release_date).format('MMMM DD, YYYY')}
+                </Text>
+                <TouchableOpacity onPress={() => removeFavorite(4, item.id)}>
+            <Text style={styles.removeButton}>Remove</Text>
+          </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+   
+      )}
+      style={styles.flatList}
     />
   );
 };
 
 const styles = StyleSheet.create({
-  movieContainer: {
-    flexDirection: "row",
-    marginVertical: 10,
-    marginHorizontal: 10,
+  flatList: {
+    backgroundColor: "#000",
+    padding: 10,
   },
-  posterImage: {
-    width: 50,
-    height: 75,
-    marginRight: 10,
-    borderRadius:25,
-    marginBottom:50
-  },
-  movieDetails: {
+  baseContainer: {
     flex: 1,
+    backgroundColor: "black",
+    width: "100%",
+height: "100%",
   },
-  movieTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "white",
-    flexWrap: "nowrap",
+  container: {
+    flexDirection: 'row',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'white',
+    backgroundColor:"black",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  removeFavorite: {
-    color: "red",
-    fontSize: 14,
-    marginTop: 5,
+  image: {
+    width: 80,
+    height: 120,
+    marginRight: 10,
   },
+  details: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color:"white",
+    bottom: 10,
+  },
+  removeButton: {
+    color: 'red',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
 });
 
 export default FavoritesScreen;
