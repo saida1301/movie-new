@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Button, FlatList, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TextInput, FlatList, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { sendMessageToChatGPT } from '../sendMessageToChatGpt';
+import { borderRadius, colors, fontSizes, spacing } from '../assets/themes';
 interface Message {
   message: string;
   isUser: boolean;
@@ -27,7 +28,7 @@ const ChatScreen = () => {
     setMessage('');
   };
 
-  const renderItem = ({ item }:any) => {
+  const renderItem = ({ item }:{ item: Message }) => {
     return (
       <View style={[styles.messageContainer, item.isUser && styles.userMessageContainer]}>
         <View style={[styles.messageBubble, item.isUser && styles.userMessageBubble]}>
@@ -50,14 +51,14 @@ const ChatScreen = () => {
           style={styles.textInput}
           value={message}
           onChangeText={setMessage}
-          placeholder="Type your message here..."
+          placeholder="Mesajınızı yazın..."
           placeholderTextColor={"#8843E1"}
         />
         {loading ? (
           <ActivityIndicator size="small" color="#007AFF" />
         ) : (
           <TouchableOpacity onPress={handleSend}>
-            <Text style={{color: "#8843E1", marginRight:10}}>Send</Text>
+            <Text style={{color: "#8843E1", marginRight:10}}>Göndər</Text>
           </TouchableOpacity>
 
         )}
@@ -69,42 +70,40 @@ const ChatScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: colors.black,
   },
   chatContainer: {
     flex: 1,
     padding: 16,
-    backgroundColor: 'black',
+    backgroundColor:colors.black,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
-    borderTopWidth: 1,
-    borderTopColor: '#8843E1 ',
+    padding: spacing.medium,
   },
   textInput: {
-    color: "white",
+    color: colors.white,
 width: '80%',
-    marginRight: 16,
+    marginRight: spacing.medium,
     borderWidth: 1,
-    borderColor: '#8843E1',
-    borderRadius: 8,
-    padding: 8,
+    borderColor: colors.primary,
+    borderRadius: borderRadius.small,
+    padding: spacing.small,
   },
   messageContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 16,
+    marginBottom: spacing.medium,
   },
   userMessageContainer: {
     justifyContent: 'flex-end',
   },
   messageBubble: {
-    backgroundColor: 'red',
-    padding: 8,
-    borderRadius: 8,
+    backgroundColor: colors.primary,
+    padding: spacing.small,
+    borderRadius: borderRadius.small,
     maxWidth: '80%',
   },
   userMessageBubble: {
@@ -114,7 +113,7 @@ width: '80%',
     marginLeft: '20%',
   },
   messageText: {
-    fontSize: 16,
+    fontSize: fontSizes.small,
   },
 });
 

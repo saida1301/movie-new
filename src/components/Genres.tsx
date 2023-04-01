@@ -122,12 +122,12 @@ const Genres = ({navigation}: any) => {
         <TouchableOpacity
           onPress={() => setSelectedList('movies')}
           style={styles.button}>
-          <Text style={{marginRight: 10}}>Movies</Text>
+          <Text style={{marginRight: 10, color:colors.black}}>Movies</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setSelectedList('animations')}
           style={styles.button}>
-          <Text>Animations</Text>
+          <Text style={{marginRight: 10, color:colors.black}}>Animations</Text>
         </TouchableOpacity>
         <View style={styles.arrow}>
           <Pressable onPress={() => setPage(page - 1)}>
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     margin: spacing.small,
   },
   button: {
-    backgroundColor: colors.gray[500],
+    backgroundColor: colors.gray[100],
     borderRadius: borderRadius.small,
     paddingVertical: spacing.small,
     paddingHorizontal: spacing.small,

@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
+import { colors, fontSizes, spacing } from "../assets/themes";
 
 const FavoritesScreen = () => {
   const [favorites, setFavorites] = useState([]);
@@ -73,47 +74,49 @@ const FavoritesScreen = () => {
   );
 };
 
+
+
+export default FavoritesScreen;
+
 const styles = StyleSheet.create({
   flatList: {
-    backgroundColor: "#000",
-    padding: 10,
+    backgroundColor: colors.black,
+    padding: spacing.small,
   },
   baseContainer: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: colors.black,
     width: "100%",
 height: "100%",
   },
   container: {
     flexDirection: 'row',
-    padding: 10,
+    padding: spacing.small,
     borderBottomWidth: 1,
-    borderBottomColor: 'white',
-    backgroundColor:"black",
+    borderBottomColor: colors.white,
+    backgroundColor:colors.black,
     alignItems: 'center',
     justifyContent: 'center',
   },
   image: {
     width: 80,
     height: 120,
-    marginRight: 10,
+    marginRight: spacing.small,
   },
   details: {
     flex: 1,
     justifyContent: 'center',
   },
   title: {
-    fontSize: 16,
+    fontSize: fontSizes.medium,
     fontWeight: 'bold',
     color:"white",
-    bottom: 10,
+    bottom: spacing.small,
   },
   removeButton: {
     color: 'red',
-    fontSize: 16,
+    fontSize: fontSizes.medium,
     fontWeight: 'bold',
   },
 
 });
-
-export default FavoritesScreen;

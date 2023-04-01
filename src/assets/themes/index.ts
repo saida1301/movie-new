@@ -12,9 +12,10 @@ export const colors = {
         500:'#BDBDBD',
         600:'#B0B0B0',
         700:'#A3A3A3',
-        800:'#969696',
+        800:'#1c1c1c',
         900:'#898989',
     },
+
 };
 export const fontSizes = {
     small: 12,
@@ -26,7 +27,8 @@ export const spacing = {
     small: 8,
     medium: 16,
     large: 20,
-    xlarge: 26
+    xlarge: 26,
+    xxlarge: 100,
 };
 
 export const fonts = {

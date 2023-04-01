@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_KEY = "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";
+const API_KEY = "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";
 const API_URL = 'https://api.openai.com/v1/engines/davinci/completions';
 
 export async function sendMessageToChatGPT(message: string) {

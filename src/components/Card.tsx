@@ -18,7 +18,7 @@ interface Props {
 
 const API_URL = `${TMDB_BASE_URL}/movie/top_rated?api_key=${API_KEY}&page=1`;
 
-const Card = ({rating}: any) => {
+const Card = () => {
   const [movies, setMovies] = useState([]);
   const navigation = useNavigation();
   useEffect(() => {

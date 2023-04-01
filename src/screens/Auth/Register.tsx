@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Pressable} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {TextInput} from 'react-native-paper';
 
@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, StoreType} from '../../store/store';
 import {register} from '../../store/redux/authSlice';
 import Header from '../../components/Header';
-import {colors} from '../../assets/themes';
+import {borderRadius, colors, fontSizes, spacing} from '../../assets/themes';
 
 const Register = ({navigation}: any) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,18 +30,22 @@ const Register = ({navigation}: any) => {
 
   return (
     <View style={styles.container}>
+          <Image
+          source={require('../../assets/images/launch_screen.png')}
+          style={styles.image}
+        />
       <TextInput
-        placeholder="Email"
+        placeholder="E-mail"
         onChangeText={setEmail}
         style={styles.input}
       />
       <TextInput
-        placeholder="Full name"
+        placeholder="Istifadeçi adı"
         onChangeText={setName}
         style={styles.input}
       />
       <TextInput
-        label="Password"
+        label="Şifrə"
         secureTextEntry={true}
         onChangeText={password => setPassword(password)}
         style={styles.input}
@@ -49,20 +53,16 @@ const Register = ({navigation}: any) => {
       <View
         style={{
           width: '100%',
-          padding: 20,
+          padding: spacing.small,
         }}>
         <Pressable
           onPress={onSubmit}
-          style={{
-            backgroundColor: colors.primary,
-            padding: 20,
-            borderRadius: 20,
-          }}>
+          style={styles.button}>
           <Text
             style={{
               textAlign: 'center',
               color: 'white',
-              fontSize: 18,
+              fontSize: fontSizes.large,
             }}>
             Submit
           </Text>
@@ -76,15 +76,11 @@ const Register = ({navigation}: any) => {
       </Text>
 
       <View style={{flexDirection:"row", justifyContent:"center"}}>
-      <Text  style={{
-            color: 'blue',
-          }}> hesabiniz var? </Text>
+      <Text  style={styles.title}> Hesabınız var? </Text>
         <Pressable onPress={() => navigation.navigate('login')}>
         <Text
-          style={{
-            color: 'blue',
-          }}>
-          Login Screen
+          style={styles.title}>
+        Daxil ol
         </Text>
         </Pressable>
       </View>
@@ -99,11 +95,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    backgroundColor:"#1c1c1c"
+    paddingHorizontal: spacing.large,
+    paddingVertical: spacing.large,
+    backgroundColor:colors.gray[800]
   },
   input: {
-    marginBottom: 20,
+    marginBottom: spacing.large,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+    resizeMode: 'contain',
+  },
+  button: {
+    backgroundColor: colors.primary,
+    padding: spacing.large,
+    borderRadius: borderRadius.large,
+  },
+  title: {
+    color: 'white',
+    fontSize: fontSizes.large,
   },
 });

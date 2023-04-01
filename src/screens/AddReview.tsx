@@ -1,10 +1,12 @@
 import axios from 'axios';
 import React, { useRef, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Animated } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Animated, Image } from 'react-native';
 import LottieView from 'lottie-react-native';
-
+ 
 import SuccessAnimation from '../animations/success.json';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { borderRadius, colors, fontSizes, spacing } from '../assets/themes';
+import SimilarMovies from '../components/SimilarMovies';
+
 
 type Props = {
   route: any;
@@ -53,6 +55,11 @@ const AddReview = ({ route, isVisible, onClose }: Props) => {
 
   return (
     <View style={styles.container}>
+          <Image
+          source={require('../assets/images/launch_screen.png')}
+          style={styles.image}
+        />
+
       <TextInput
         value={content}
         onChangeText={setContent}
@@ -64,6 +71,10 @@ const AddReview = ({ route, isVisible, onClose }: Props) => {
       <TouchableOpacity style={styles.button} onPress={postReview}>
         <Text style={styles.buttonText}>Submit Review</Text>
       </TouchableOpacity>
+
+<View style={styles.box}>
+        <SimilarMovies movieId={movie_id} />
+</View>
       <Modal visible={isSuccessModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modal}>
@@ -83,40 +94,41 @@ const AddReview = ({ route, isVisible, onClose }: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#1c1c1c',
-    justifyContent: 'center',
+    padding: spacing.large,
+    backgroundColor: colors.gray[800],
+
   },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 20,
-    color: '#fff',
+    borderRadius: borderRadius.small,
+    padding: spacing.medium,
+    marginBottom: spacing.large,
+    color: colors.gray[100],
   },
+
   button: {
-    backgroundColor: '#0080ff',
-    borderRadius: 5,
-    padding: 10,
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius.small,
+    padding: spacing.medium,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 16,
+    color: colors.gray[100],
+    fontSize: fontSizes.large,
     fontWeight: 'bold',
   },
   modalText: {
-    fontSize: 18,
+    fontSize: fontSizes.large,
     fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#000',
+    marginBottom: spacing.medium,
+    color: colors.black,
   },
   modalButton: {
-    backgroundColor: '#0080ff',
-    borderRadius: 5,
-    padding: 10,
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius.small,
+    padding: spacing.medium,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -127,23 +139,35 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modal: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.small,
+    padding: spacing.large,
     alignItems: 'center',
     justifyContent: 'center',
   },
   modalButtonText: {
-    color: '#fff',
-    fontSize: 16,
+    color: colors.white,
+    fontSize: fontSizes.large,
     fontWeight: 'bold',
+  },
+
+  image: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+    resizeMode: 'contain',
   },
 
   animation: {
     width: 150,
     height: 150,
   },
-
+box: {
+    flex: 1,
+    backgroundColor: colors.gray[800],
+    borderRadius: borderRadius.small,
+    marginTop: spacing.xxlarge,
+  },
 });
 
 

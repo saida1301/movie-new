@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import axios from 'axios';
-import { API_KEY } from '../services/urls';
-import { useNavigation } from '@react-navigation/native';
-import { borderRadius, colors, fontSizes, spacing } from '../assets/themes';
-import  Feather  from 'react-native-vector-icons/Feather';
+import {API_KEY} from '../services/urls';
+import {useNavigation} from '@react-navigation/native';
+import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
+import Feather from 'react-native-vector-icons/Feather';
 
 const BestMovies = () => {
   const [movies, setMovies] = useState([]);
   const [numMoviesToShow, setNumMoviesToShow] = useState(4);
-
   const navigation = useNavigation();
 
   useEffect(() => {
     axios
-      .get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=vote_average.desc&primary_release_date.gte=2022-03-01&primary_release_date.lte=2022-03-31`
-      )
-      .then((response) => {
-        setMovies(response.data.results);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .get('http://192.168.0.105:3000/movies/best')
+      .then(response => setMovies(response.data))
+      .catch(error => console.error(error));
   }, []);
 
   const handleShowMore = () => {
@@ -34,16 +34,10 @@ const BestMovies = () => {
   };
 
   return (
- 
-
     <View style={styles.container}>
-        <Text style={styles.header}>Best Movies</Text>
-      {movies.slice(0, numMoviesToShow).map((movie) => (
-        <TouchableOpacity
-          style={styles.movieContainer}
-          key={movie.id}
-          onPress={() => navigation.navigate('Details', { id: movie.id })}
-        >
+      <Text style={styles.header}>Best Movies</Text>
+      {movies.slice(0, numMoviesToShow).map(movie => (
+        <View style={styles.movieContainer} key={movie.id}>
           <Image
             style={styles.poster}
             source={{
@@ -54,8 +48,12 @@ const BestMovies = () => {
             <Text style={styles.title}>{movie.title}</Text>
             <Text style={styles.rating}>Rating: {movie.vote_average}</Text>
           </View>
-          <Feather name="arrow-right" size={24} color={colors.white} />
-        </TouchableOpacity>
+          <Pressable
+            style={{marginRight: 20}}
+            onPress={() => navigation.navigate('Details', {id: movie.id})}>
+            <Feather name="arrow-right" size={24} color={colors.white} />
+          </Pressable>
+        </View>
       ))}
       {numMoviesToShow < movies.length ? (
         <TouchableOpacity onPress={handleShowMore}>
@@ -67,7 +65,6 @@ const BestMovies = () => {
         </TouchableOpacity>
       )}
     </View>
-
   );
 };
 
@@ -76,7 +73,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
     padding: spacing.small,
+    marginBottom: 100,
   },
+
   movieContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -110,15 +109,14 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   header: {
-    fontSize: fontSizes.large,
+    fontSize: fontSizes.medium,
     fontWeight: 'bold',
     marginBottom: spacing.small,
-    marginTop: -40,
-    color:colors.white,
-    },
+    color: colors.white,
+  },
   rating: {
     fontSize: fontSizes.medium,
-    color: colors.gray[500],
+    color: colors.primary,
   },
   showMore: {
     backgroundColor: colors.primary,
@@ -127,7 +125,8 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.small,
     alignSelf: 'center',
     margin: spacing.small,
-    color:colors.white,}
+    color: colors.white,
+  },
 });
 
 export default BestMovies;

@@ -7,17 +7,16 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
-  Button,
 } from 'react-native';
 import axios from 'axios';
 import {API_KEY} from '../services/urls';
 import WebView from 'react-native-webview';
 import AddButtons from '../components/AddButtons';
-import {colors, spacing} from '../assets/themes';
+import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
 const MAX_LINES = 3;
 const DetailsScreen = ({navigation, route}: any) => {
   const {id, movie_id, author} = route.params;
-  
+
   const [isFavorite, setIsFavorite] = useState(false);
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState('');
@@ -25,10 +24,9 @@ const DetailsScreen = ({navigation, route}: any) => {
   const [showFullText, setShowFullText] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [reviewsPerPage, setReviewsPerPage] = useState(25);
-  
 
   useEffect(() => {
-    const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&append_to_response=credits&language=en-US
+    const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&append_to_response=credits&language=tr-TR
       `;
     axios
       .get(apiUrl)
@@ -40,7 +38,7 @@ const DetailsScreen = ({navigation, route}: any) => {
         console.log(error);
       });
   }, [id]);
-  
+
   useEffect(() => {
     const fetchTrailer = async () => {
       try {
@@ -57,13 +55,21 @@ const DetailsScreen = ({navigation, route}: any) => {
     };
     fetchTrailer();
   }, [id]);
-  
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        console.log('movie_id:', id, 'currentPage:', currentPage, 'reviewsPerPage:', reviewsPerPage);
-        const response = await axios.get(`http://192.168.0.105:3000/reviews/${id}?page=${currentPage}&limit=${reviewsPerPage}`);
+        console.log(
+          'movie_id:',
+          id,
+          'currentPage:',
+          currentPage,
+          'reviewsPerPage:',
+          reviewsPerPage,
+        );
+        const response = await axios.get(
+          `http://192.168.0.105:3000/reviews/${id}`,
+        );
         const reviewsData = response.data;
         setReviews(reviewsData);
       } catch (error) {
@@ -72,10 +78,9 @@ const DetailsScreen = ({navigation, route}: any) => {
     };
     fetchReviews();
   }, [id, currentPage, reviewsPerPage]);
-  
 
   const handleHeartPress = (movieId: any) => {
-    setFavorite(!isFavorite);
+    setIsFavorite(!isFavorite);
   };
 
   const handlePressReview = (movie_id: any, author: any) => {
@@ -117,7 +122,7 @@ const DetailsScreen = ({navigation, route}: any) => {
       </View>
     );
   };
-  
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.container}>
@@ -168,40 +173,40 @@ const DetailsScreen = ({navigation, route}: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: colors.black,
   },
   trailer: {
     flex: 1,
     height: 300,
   },
   detailsContainer: {
-    padding: 10,
+    padding: spacing.medium,
   },
   title: {
-    fontSize: 20,
+    fontSize: fontSizes.large,
     fontWeight: 'bold',
-    marginVertical: 10,
-    color: 'white',
+    marginVertical: spacing.small,
+    color: colors.white,
     flex: 1,
     flexWrap: 'wrap',
   },
   releaseDate: {
-    fontSize: 16,
-    marginBottom: 5,
-    color: 'white',
+    fontSize: fontSizes.small,
+    marginBottom: spacing.small,
+    color: colors.white,
   },
 
   overview: {
-    fontSize: 16,
-    marginBottom: 10,
-    color: 'white',
+    fontSize: fontSizes.medium,
+    marginBottom: spacing.small,
+    color: colors.white,
   },
   sectionHeader: {
-    fontSize: 18,
+    fontSize: fontSizes.large,
     fontWeight: 'bold',
-    marginTop: 20,
-    marginBottom: 10,
-    color: 'white',
+    marginTop: spacing.large,
+    marginBottom: spacing.small,
+    color: colors.white,
   },
   castMemberContainer: {
     justifyContent: 'space-between',
@@ -211,29 +216,29 @@ const styles = StyleSheet.create({
     height: 50,
     resizeMode: 'cover',
     justifyContent: 'space-around',
-    borderRadius: 25,
-    marginRight: 10,
+    borderRadius: borderRadius.large,
+    marginRight: spacing.small,
   },
   reviewContainer: {
-    marginBottom: 20,
+    marginBottom: spacing.medium,
   },
   reviewAuthor: {
-    fontSize: 16,
+    fontSize: fontSizes.medium,
     fontWeight: 'bold',
-    marginBottom: 5,
-    color: 'white',
+    marginBottom: spacing.small,
+    color: colors.white,
   },
   reviewContent: {
-    fontSize: 14,
+    fontSize: fontSizes.small,
     lineHeight: 20,
-    color: 'white',
+    color: colors.white,
   },
   addreview: {
     position: 'absolute',
     top: 40,
-    right: 20,
-    borderRadius: 35,
-    backgroundColor: 'white',
+    right: spacing.medium,
+    borderRadius: borderRadius.large,
+    backgroundColor: colors.primary,
     width: 70,
     height: 70,
     zIndex: 100,
