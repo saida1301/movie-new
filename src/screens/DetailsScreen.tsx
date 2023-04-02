@@ -13,7 +13,9 @@ import {API_KEY} from '../services/urls';
 import WebView from 'react-native-webview';
 import AddButtons from '../components/AddButtons';
 import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
+
 const MAX_LINES = 3;
+
 const DetailsScreen = ({navigation, route}: any) => {
   const {id, movie_id, author} = route.params;
 
@@ -22,8 +24,6 @@ const DetailsScreen = ({navigation, route}: any) => {
   const [trailer, setTrailer] = useState('');
   const [reviews, setReviews] = useState([]);
   const [showFullText, setShowFullText] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [reviewsPerPage, setReviewsPerPage] = useState(25);
 
   useEffect(() => {
     const apiUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&append_to_response=credits&language=tr-TR
@@ -61,11 +61,7 @@ const DetailsScreen = ({navigation, route}: any) => {
       try {
         console.log(
           'movie_id:',
-          id,
-          'currentPage:',
-          currentPage,
-          'reviewsPerPage:',
-          reviewsPerPage,
+          id
         );
         const response = await axios.get(
           `http://192.168.0.105:3000/reviews/${id}`,
@@ -77,14 +73,18 @@ const DetailsScreen = ({navigation, route}: any) => {
       }
     };
     fetchReviews();
-  }, [id, currentPage, reviewsPerPage]);
+  }, [id]);
 
   const handleHeartPress = (movieId: any) => {
     setIsFavorite(!isFavorite);
   };
 
   const handlePressReview = (movie_id: any, author: any) => {
-    navigation.navigate('AddReview', {movie_id, author});
+    navigation.navigate('AddReview', {movie_id, author, onAddReview});
+  };
+
+  const onAddReview = (review: any) => {
+    setReviews([...reviews, review]);
   };
 
   if (!movie) {
@@ -101,6 +101,7 @@ const DetailsScreen = ({navigation, route}: any) => {
       </View>
     );
   };
+
   const renderReview = ({item}: any) => {
     const toggleFullText = () => {
       setShowFullText(!showFullText);

@@ -5,11 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import { borderRadius, fontSizes, spacing } from '../assets/themes';
+import { baseUrl } from '../api/axiosInstance';
 
 const AddButtons = ({movie_id, onPressReview}: any) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [author, setAuthor] = useState('');
-  const [id, setUserId] = useState('4');
+  const [id, setUserId] = useState('1');
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -24,15 +25,15 @@ const AddButtons = ({movie_id, onPressReview}: any) => {
   
 
   const handleFavoritePress = async () => {
-    const userId = await AsyncStorage.getItem('4');
+    const userId = await AsyncStorage.getItem('1');
   
     const data = {
       movie_id: movie_id,
-      user_id: 4,
+      user_id: 1,
     };
   
     try {
-      const response = await axios.post('http://192.168.0.105:3000/favorites', data);
+      const response = await axios.post(`http://192.168.0.105:3000/favorites`, data);
       console.log(response.data);
     } catch (error) {
       console.error(error);

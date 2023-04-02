@@ -6,54 +6,56 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  GestureResponderEvent,
 } from 'react-native';
 import axios from 'axios';
 
 import {Modal} from 'react-native-paper';
+import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
 
-const MyReviewsScreen = ({userName}: any) => {
-  const [reviews, setReviews] = useState([]);
+const MyReviewsScreen = ({id}: any) => {
+  const [reviews, setReviews] = useState<{id: number}[]>([]);
   const [error, setError] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [newContent, setNewContent] = useState('');
-  const [selectedReviewId, setSelectedReviewId] = useState('');
+  const [content, setNewContent] = useState('');
+  const [selectedReviewId, setSelectedReviewId] = useState(id);
+  const [editingReviewId, setEditingReviewId] = useState(null);
 
   useEffect(() => {
     axios
-      .get(`http://192.168.0.105:3000/review/user/Saida`)
+      .get(`http://192.168.0.105:3000/review/user/Saidam`)
       .then(response => setReviews(response.data))
       .catch(error => setError(error));
-  }, [userName]);
+  }, []);
 
-  const editReview = (reviewId:any) => {
+  const editReview = (reviewId: React.SetStateAction<null>) => {
     axios
-      .put(`http://192.168.0.105:3000/review/${reviewId}`, {
-        content: newContent,
+      .put(`http://192.168.0.105:3000/review/user/Saidam/${selectedReviewId}`, {
+        content: content,
       })
-      .then((response) => {
+      .then(response => {
         axios
-          .get(`http://192.168.0.105:3000/review/user/Saida`)
-          .then((response) => setReviews(response.data))
-          .catch((error) => setError(error));
+          .get(`http://192.168.0.105:3000/review/user/Saidam`)
+          .then(response => setReviews(response.data))
+          .catch(error => setError(error));
       })
-      .catch((error) => setError(error));
+      .catch(error => setError(error));
     setModalVisible(false);
+    setEditingReviewId(reviewId);
   };
-  
 
-  const deleteReview = (reviewId: any) => {
+  const deleteReview = (id: number) => {
     axios
-      .delete(`http://192.168.0.105:3000/review/${reviewId}`)
+      .delete(`http://192.168.0.105:3000/review/user/Saidam/${id}`)
       .then(response => {
         console.log(response.data);
-        setReviews(prevReviews => prevReviews.filter(r => r.id !== reviewId));
+        setReviews(prevReviews => prevReviews.filter(r => r.id !== id));
       })
       .catch(error => console.log(error));
   };
 
   const renderItem = ({item}: any) => (
     <View style={styles.review}>
-      <Text style={styles.author}>{item.author}</Text>
       <Text style={styles.content}>{item.content}</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -64,13 +66,11 @@ const MyReviewsScreen = ({userName}: any) => {
           }}>
           <Text style={styles.buttonText}>Edit</Text>
         </TouchableOpacity>
-        <TouchableOpacity 
-  style={[styles.button, styles.deleteButton]} 
-  onPress={() => deleteReview(item.id)}
->
-  <Text style={styles.buttonText}>Delete</Text>
-</TouchableOpacity>
-
+        <TouchableOpacity
+          style={[styles.button, styles.deleteButton]}
+          onPress={() => deleteReview(item.id)}>
+          <Text style={styles.buttonText}>Delete</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -78,9 +78,11 @@ const MyReviewsScreen = ({userName}: any) => {
   return (
     <View style={styles.container}>
       <FlatList
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         data={reviews}
         renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
+        id={selectedReviewId}
       />
 
       <Modal visible={modalVisible}>
@@ -92,12 +94,12 @@ const MyReviewsScreen = ({userName}: any) => {
             multiline
             placeholderTextColor={'#ccc'}
             onChangeText={text => setNewContent(text)}
-            value={newContent}
+            value={content}
           />
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               style={[styles.button, styles.editButton]}
-              onPress={editReview}>
+              onPress={() => editReview()}>
               <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -115,37 +117,38 @@ const MyReviewsScreen = ({userName}: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    backgroundColor: 'black',
+    padding: spacing.medium,
+    backgroundColor: colors.black,
   },
   review: {
-    padding: 10,
-    marginVertical: 5,
-    backgroundColor: '#333',
-    borderRadius: 20,
+    padding: spacing.medium,
+    marginVertical: spacing.medium,
+    backgroundColor: colors.gray[100],
+    borderRadius: borderRadius.small,
     justifyContent: 'center',
   },
   author: {
     fontWeight: 'bold',
-    marginBottom: 5,
-    color: '#fff',
+    marginBottom: spacing.small,
+    color: colors.white,
     alignSelf: 'center',
   },
   content: {
-    fontSize: 16,
-    color: '#fff',
+    fontSize: fontSizes.medium,
+    color: colors.black,
+    justifyContent: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 10,
+    marginTop: spacing.medium,
   },
   button: {
-    padding: 10,
-    borderRadius: 5,
+    padding: spacing.small,
+    borderRadius: borderRadius.small,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 10,
+    marginLeft: spacing.small,
     minWidth: 80,
   },
   editButton: {
@@ -160,29 +163,29 @@ const styles = StyleSheet.create({
   },
 
   modal: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 10,
-    margin: 20,
+    backgroundColor: colors.gray[200],
+    borderRadius: borderRadius.small,
+    padding: spacing.medium,
+    margin: spacing.medium,
     alignItems: 'center',
     justifyContent: 'center',
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: fontSizes.large,
     fontWeight: 'bold',
-    marginBottom: 20,
-    color: 'black',
+    marginBottom: spacing.medium,
+    color: colors.black,
   },
   modalInput: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 20,
-    padding: 5,
-    marginBottom: 20,
+    borderColor: colors.gray[600],
+    borderRadius: borderRadius.small,
+    padding: spacing.small,
+    marginBottom: spacing.medium,
     height: '50%',
     width: '100%',
     textAlignVertical: 'top',
-    color: 'black',
+    color: colors.black,
     flexWrap: 'nowrap',
   },
   cancelButton: {

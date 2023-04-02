@@ -10,9 +10,21 @@ const SplashScreen = ({ navigation }) => {
       duration: 6000,
       useNativeDriver: true,
     }).start(() => {
-      navigation.replace('Onboarding');
+      navigation.navigate('login');
     });
   }, [fadeAnim, navigation]);
+
+  useEffect(() => {
+    const checkLoggedInStatus = async () => {
+      const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+      if (isLoggedIn === 'true') {
+        navigation.navigate('Tabs');
+      }
+    };
+    checkLoggedInStatus();
+  }, []);
+
+
 
   return (
     <View style={styles.container}>

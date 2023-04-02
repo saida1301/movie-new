@@ -21,19 +21,6 @@ const App = () => {
   const [isAppFirstLaunched, setIsAppFirstLaunched] = useState<Boolean>(false);
   const [islogin, setislogin] = useState(false);
 
-  useEffect(() => {
-    const checkIfAppIsFirstLaunched = async () => {
-      const appData = await AsyncStorage.getItem('isAppFirstLaunched');
-      if (appData == null) {
-        setIsAppFirstLaunched(true);
-        await AsyncStorage.setItem('isAppFirstLaunched', 'false');
-      } else {
-        setIsAppFirstLaunched(false);
-      }
-    };
-    checkIfAppIsFirstLaunched();
-  }, []);
-
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -46,7 +33,7 @@ const App = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
-          <Stack.Screen name="Onboarding" component={OnBoardingScreen} options={{headerShown: false}}/>
+          {/* <Stack.Screen name="Onboarding" component={OnBoardingScreen} options={{headerShown: false}}/> */}
           <Stack.Screen name="login" component={LoginScreen} options={{headerShown: false}} />
           <Stack.Screen
             name="signup"

@@ -12,8 +12,12 @@ import axios from 'axios';
 import Carousel from 'react-native-snap-carousel';
 import {useNavigation} from '@react-navigation/native';
 
+
+
 interface Props {
   rating: number;
+  poster_path: string;
+  id: string;
 }
 
 const API_URL = `${TMDB_BASE_URL}/movie/top_rated?api_key=${API_KEY}&page=1`;
@@ -28,8 +32,7 @@ const Card = () => {
   }, []);
 
   const renderMovieCard = ({item}: any) => (
-    <TouchableOpacity
-      onPress={() => navigation.navigate('Details', {id: item.id})}>
+<TouchableOpacity onPress={() => navigation.navigate('Details', {id: item.id} as {id: string})}>
       <View style={styles.card}>
         <Image
           source={{uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`}}

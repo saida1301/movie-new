@@ -13,7 +13,7 @@ const FavoritesScreen = () => {
   const getFavorites = async () => {
     const userId = await AsyncStorage.getItem('userId');
 
-    axios.get(`http://192.168.0.105:3000/favorites/4`)
+    axios.get(`http://192.168.0.105:3000/favorites/1`)
       .then((response) => {
         setFavorites(response.data);
         setLoading(false);
@@ -26,10 +26,10 @@ const FavoritesScreen = () => {
   }, []);
 
 
-  const removeFavorite = async (userId: any, movieId: any) => {
+  const removeFavorite = async (userId: any, movie_id: any) => {
     try {
-      await axios.delete(`http://192.168.0.105:3000/favorites/4/${movieId}`);
-      const updatedFavorites = favorites.filter((movie) => movie.id !== movieId);
+      await axios.delete(`http://192.168.0.105:3000/favorites/1/${movie_id}`);
+      const updatedFavorites = favorites.filter((movie) => movie.id !== movie_id);
       setFavorites(updatedFavorites);
     } catch (error) {
       console.error(error);

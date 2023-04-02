@@ -65,10 +65,10 @@ const styles = StyleSheet.create({
     padding: spacing.small,
   },
   header: {
-    fontSize: fontSizes.medium,
+    fontSize: fontSizes.large,
     fontWeight: 'bold',
-    marginBottom: spacing.small,
-    color: colors.white,
+    color: '#fff',
+    marginBottom: spacing.large,
     },
   slide: {
     width: windowWidth/2,

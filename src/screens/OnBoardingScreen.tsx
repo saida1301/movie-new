@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   Image,
@@ -11,8 +11,10 @@ import {
   Dimensions,
 } from 'react-native';
 import { colors } from '../assets/themes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('window');
+
 
 
 
@@ -52,7 +54,7 @@ const Slide = ({item}) => {
   );
 };
 
-const OnBoardingScreen = ({navigation} ) => {
+const OnBoardingScreen = ({navigation} :any) => {
   const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0);
   const ref = React.useRef(null);
   const updateCurrentSlideIndex = (e) => {
@@ -60,7 +62,20 @@ const OnBoardingScreen = ({navigation} ) => {
     const currentIndex = Math.round(contentOffsetX / width);
     setCurrentSlideIndex(currentIndex);
   };
-
+  useEffect(() => {
+    const checkOnBoardingStatus = async () => {
+      try {
+        const onBoardingStatus = await AsyncStorage.getItem('onBoardingStatus');
+        if (onBoardingStatus !== null) {
+          navigation.navigate('login');
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+  
+    checkOnBoardingStatus();
+  }, []);
   const goToNextSlide = () => {
     const nextSlideIndex = currentSlideIndex + 1;
     if (nextSlideIndex != slides.length) {
@@ -68,6 +83,7 @@ const OnBoardingScreen = ({navigation} ) => {
       ref?.current.scrollToOffset({offset});
       setCurrentSlideIndex(currentSlideIndex + 1);
     }
+    AsyncStorage.setItem('onBoardingStatus', 'done');
   };
 
   const skip = () => {

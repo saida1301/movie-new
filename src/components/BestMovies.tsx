@@ -12,6 +12,7 @@ import {API_KEY} from '../services/urls';
 import {useNavigation} from '@react-navigation/native';
 import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
 import Feather from 'react-native-vector-icons/Feather';
+import { baseUrl } from '../api/axiosInstance';
 
 const BestMovies = () => {
   const [movies, setMovies] = useState([]);
@@ -20,7 +21,7 @@ const BestMovies = () => {
 
   useEffect(() => {
     axios
-      .get('http://192.168.0.105:3000/movies/best')
+      .get(`http://192.168.0.105:3000/movies/best`)
       .then(response => setMovies(response.data))
       .catch(error => console.error(error));
   }, []);
@@ -49,7 +50,7 @@ const BestMovies = () => {
             <Text style={styles.rating}>Rating: {movie.vote_average}</Text>
           </View>
           <Pressable
-            style={{marginRight: 20}}
+            style={{marginRight: 35}}
             onPress={() => navigation.navigate('Details', {id: movie.id})}>
             <Feather name="arrow-right" size={24} color={colors.white} />
           </Pressable>
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
     padding: spacing.small,
-    marginBottom: 100,
+    marginBottom: spacing.large,
   },
 
   movieContainer: {
@@ -109,10 +110,10 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   header: {
-    fontSize: fontSizes.medium,
+    fontSize: fontSizes.large,
     fontWeight: 'bold',
-    marginBottom: spacing.small,
-    color: colors.white,
+    color: '#fff',
+    marginBottom: spacing.large,
   },
   rating: {
     fontSize: fontSizes.medium,
@@ -124,7 +125,6 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.small,
     borderRadius: borderRadius.small,
     alignSelf: 'center',
-    margin: spacing.small,
     color: colors.white,
   },
 });
