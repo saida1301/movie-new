@@ -15,12 +15,29 @@ import AddButtons from '../components/AddButtons';
 import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
 
 const MAX_LINES = 3;
-
+interface Movie {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  backdrop_path: string;
+  release_date: string;
+  vote_average: number;
+  credits: {
+    cast: [
+      {
+        id: number;
+        name: string;
+        profile_path: string;
+      },
+    ];
+  };
+}
 const DetailsScreen = ({navigation, route}: any) => {
   const {id, movie_id, author} = route.params;
 
   const [isFavorite, setIsFavorite] = useState(false);
-  const [movie, setMovie] = useState(null);
+  const [movie, setMovie] = useState();
   const [trailer, setTrailer] = useState('');
   const [reviews, setReviews] = useState([]);
   const [showFullText, setShowFullText] = useState(false);
@@ -252,6 +269,14 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 1,
     elevation: 3,
+  },
+  addreviewText: {
+    color: colors.white,
+    fontSize: fontSizes.medium,
+    fontWeight: 'bold',
+  },
+  castListContainer: {
+    paddingVertical: spacing.small,
   },
 });
 

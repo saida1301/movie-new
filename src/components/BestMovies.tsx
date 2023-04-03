@@ -13,9 +13,14 @@ import {useNavigation} from '@react-navigation/native';
 import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
 import Feather from 'react-native-vector-icons/Feather';
 import { baseUrl } from '../api/axiosInstance';
-
+interface Movies {
+  id: number;
+  poster_path: string;
+  title: string;
+  vote_average: number;
+}
 const BestMovies = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movies[]>([]);
   const [numMoviesToShow, setNumMoviesToShow] = useState(4);
   const navigation = useNavigation();
 
@@ -102,6 +107,7 @@ const styles = StyleSheet.create({
   movieDetails: {
     flex: 1,
     justifyContent: 'center',
+    marginLeft: spacing.small,
   },
   title: {
     fontSize: fontSizes.medium,
@@ -113,7 +119,8 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.large,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: spacing.large,
+    marginBottom: spacing.medium,
+    marginTop: -30,
   },
   rating: {
     fontSize: fontSizes.medium,

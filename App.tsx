@@ -16,6 +16,7 @@ import Register from './src/screens/Auth/Register';
 import OnBoardingScreen from './src/screens/OnBoardingScreen';
 import SplashScreen from './src/SplashScreen';
 
+
 const Stack = createNativeStackNavigator();
 const App = () => {
   const [isAppFirstLaunched, setIsAppFirstLaunched] = useState<Boolean>(false);

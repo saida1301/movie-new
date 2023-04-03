@@ -9,7 +9,7 @@ const windowWidth = Dimensions.get('window').width;
 
 
 const TrendingMovies = () => {
-  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [trendingMovies, setTrendingMovies] = useState<{id: number}[]>([]);
   const navigation = useNavigation();
 
   useEffect(() => {

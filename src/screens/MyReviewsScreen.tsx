@@ -99,7 +99,7 @@ const MyReviewsScreen = ({id}: any) => {
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               style={[styles.button, styles.editButton]}
-              onPress={() => editReview()}>
+              onPress={() => editReview(id)}>
               <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
             <TouchableOpacity
