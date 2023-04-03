@@ -6,6 +6,8 @@ import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import { borderRadius, fontSizes, spacing } from '../assets/themes';
 import { baseUrl } from '../api/axiosInstance';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faHeart, faHouse } from '@fortawesome/free-solid-svg-icons';
 
 const AddButtons = ({movie_id, onPressReview}: any) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -72,9 +74,9 @@ const AddButtons = ({movie_id, onPressReview}: any) => {
       <TouchableOpacity onPress={handleFavoritePress}>
         <Text style={[styles.button, {color: 'white'}]}>
           {isFavorite ? (
-            <AntDesign name="heart" size={25} color="#8843E1" />
+            <FontAwesomeIcon icon={faHeart} size={25} color="#8843E1" />
           ) : (
-            <AntDesign name="hearto" size={25} color="#8843E1" />
+            <FontAwesomeIcon icon={faHeart} size={25} color="white" />
           )}
         </Text>
       </TouchableOpacity>
@@ -92,7 +94,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.small,
     paddingHorizontal: spacing.small,
     borderRadius: borderRadius.small,
-    fontSize: fontSizes.large,
+    fontSize: fontSizes.xlarge,
     fontWeight: 'bold',
   },
 });

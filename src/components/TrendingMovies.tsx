@@ -60,7 +60,7 @@ const TrendingMovies = () => {
 const styles = StyleSheet.create({
   container: {
     height: 300,
-    marginVertical: spacing.large,
+    marginVertical: spacing.medium,
     backgroundColor:colors.black,
     padding: spacing.small,
   },
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.large,
     },
   slide: {
-    width: windowWidth/2,
+    width: windowWidth/3,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
   },

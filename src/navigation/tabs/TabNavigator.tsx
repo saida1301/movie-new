@@ -1,8 +1,15 @@
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../screens/HomeScreen';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {
+  faArrowLeft,
+  faBookOpen,
+  faHeart,
+  faHouse,
+  faMessage,
+} from '@fortawesome/free-solid-svg-icons';
 import MyReviewsScreen from '../../screens/MyReviewsScreen';
 import ChatScreen from '../../screens/ChatScreen';
 import FavoritesScreen from '../../screens/FavoritesScreen';
@@ -31,8 +38,8 @@ const TabNavigator = () => {
             headerShown: false,
             tabBarShowLabel: false,
             tabBarIcon: ({focused}) => (
-              <Ionicons
-                name="home"
+              <FontAwesomeIcon
+                icon={faHouse}
                 size={24}
                 style={focused ? styles.tabIconActive : styles.tabIconInactive}
               />
@@ -43,11 +50,38 @@ const TabNavigator = () => {
           name="MyReviews"
           component={MyReviewsScreen}
           options={({route}) => ({
-            headerShown: false,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.push("Tabs")}>
+                <FontAwesomeIcon
+                  icon={faArrowLeft}
+                  size={24}
+                  color={colors.white}
+                />
+              </TouchableOpacity>
+            ),
+            headerBackground: () => (
+              <View
+                style={{
+                  backgroundColor: colors.black,
+                  flex: 1,
+                  flexDirection: 'row',
+                }}></View>
+            ),
+            headerLeftContainerStyle: {
+              paddingLeft: 20,
+            },
+            headerStyle: {
+              backgroundColor: colors.black,
+              shadowColor: colors.black,
+            },
+            headerTitleStyle: {
+              color: colors.white,
+            },
             tabBarShowLabel: false,
             tabBarIcon: ({focused}) => (
-              <Ionicons
-                name="star-outline"
+
+              <FontAwesomeIcon
+                icon={faBookOpen}
                 size={24}
                 style={focused ? styles.tabIconActive : styles.tabIconInactive}
               />
@@ -58,11 +92,37 @@ const TabNavigator = () => {
           name="OpenAi"
           component={ChatScreen}
           options={({route}) => ({
-            headerShown: false,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.push("Tabs")}>
+                <FontAwesomeIcon
+                  icon={faArrowLeft}
+                  size={24}
+                  color={colors.white}
+                />
+              </TouchableOpacity>
+            ),
+            headerBackground: () => (
+              <View
+                style={{
+                  backgroundColor: colors.black,
+                  flex: 1,
+                  flexDirection: 'row',
+                }}></View>
+            ),
+            headerLeftContainerStyle: {
+              paddingLeft: 20,
+            },
+            headerStyle: {
+              backgroundColor: colors.black,
+              shadowColor: colors.black,
+            },
+            headerTitleStyle: {
+              color: colors.white,
+            },
             tabBarShowLabel: false,
             tabBarIcon: ({focused}) => (
-              <Ionicons
-                name="chatbox-outline"
+              <FontAwesomeIcon
+                icon={faMessage}
                 size={24}
                 style={focused ? styles.tabIconActive : styles.tabIconInactive}
               />
@@ -73,18 +133,43 @@ const TabNavigator = () => {
           name="Favorites"
           component={FavoritesScreen}
           options={({route}) => ({
-            headerShown: false,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.push("Tabs")}>
+                <FontAwesomeIcon
+                  icon={faArrowLeft}
+                  size={24}
+                  color={colors.white}
+                />
+              </TouchableOpacity>
+            ),
+            headerBackground: () => (
+              <View
+                style={{
+                  backgroundColor: colors.black,
+                  flex: 1,
+                  flexDirection: 'row',
+                }}></View>
+            ),
+            headerLeftContainerStyle: {
+              paddingLeft: 20,
+            },
+            headerStyle: {
+              backgroundColor: colors.black,
+              shadowColor: colors.black,
+            },
+            headerTitleStyle: {
+              color: colors.white,
+            },
             tabBarShowLabel: false,
             tabBarIcon: ({focused}) => (
-              <Ionicons
-                name="heart-outline"
+              <FontAwesomeIcon
+                icon={faHeart}
                 size={24}
                 style={focused ? styles.tabIconActive : styles.tabIconInactive}
               />
             ),
           })}
         />
-        
       </Tab.Navigator>
     </>
   );

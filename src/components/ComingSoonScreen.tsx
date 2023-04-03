@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: spacing.small,
-    paddingHorizontal: spacing.medium,
+    paddingHorizontal: spacing.small,
   },
   moviePoster: {
     width: 80,

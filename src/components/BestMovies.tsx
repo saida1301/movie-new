@@ -11,8 +11,10 @@ import axios from 'axios';
 import {API_KEY} from '../services/urls';
 import {useNavigation} from '@react-navigation/native';
 import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
-import Feather from 'react-native-vector-icons/Feather';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+
 import { baseUrl } from '../api/axiosInstance';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 interface Movies {
   id: number;
   poster_path: string;
@@ -57,7 +59,7 @@ const BestMovies = () => {
           <Pressable
             style={{marginRight: 35}}
             onPress={() => navigation.navigate('Details', {id: movie.id})}>
-            <Feather name="arrow-right" size={24} color={colors.white} />
+        <FontAwesomeIcon icon={faArrowRight} color={colors.primary} size={24}/>
           </Pressable>
         </View>
       ))}

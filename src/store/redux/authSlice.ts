@@ -51,11 +51,14 @@ export const register = createAsyncThunk(
 
     export const login = createAsyncThunk(
         '/login',
-        async ({  email, password }: { email: string, password: string }) => {
-          const res = await axiosInstance.post('login', {  email, password });
+        async ({ email, password }: { email: string, password: string }) => {
+          console.log('login thunk called with:', email, password);
+          const res = await axiosInstance.post('login', { email, password });
+          console.log('login thunk response:', res.data);
           return res.data;
         }
       );
+      
       
 
 const authSlice = createSlice({

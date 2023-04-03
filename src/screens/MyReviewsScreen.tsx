@@ -13,13 +13,14 @@ import axios from 'axios';
 import {Modal} from 'react-native-paper';
 import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
 
-const MyReviewsScreen = ({id}: any) => {
-  const [reviews, setReviews] = useState<{id: number}[]>([]);
+const MyReviewsScreen = ({ids}: any) => {
+  const [reviews, setReviews] = useState<{
+    [x: string]: any;id: number
+}[]>([]);
   const [error, setError] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [content, setNewContent] = useState('');
-  const [selectedReviewId, setSelectedReviewId] = useState(id);
-  const [editingReviewId, setEditingReviewId] = useState(null);
+  const [selectedReviewId, setSelectedReviewId] = useState(ids);
 
   useEffect(() => {
     axios
@@ -27,32 +28,32 @@ const MyReviewsScreen = ({id}: any) => {
       .then(response => setReviews(response.data))
       .catch(error => setError(error));
   }, []);
-
-  const editReview = (reviewId: React.SetStateAction<null>) => {
+  const editReview = (ids: number, content: string) => {
     axios
-      .put(`http://192.168.0.105:3000/review/user/Saidam/${selectedReviewId}`, {
+      .put(`http://192.168.0.105:3000/review/${ids}`, {
         content: content,
       })
       .then(response => {
-        axios
-          .get(`http://192.168.0.105:3000/review/user/Saidam`)
-          .then(response => setReviews(response.data))
-          .catch(error => setError(error));
+        console.log(response.data);
+        setModalVisible(false);
       })
-      .catch(error => setError(error));
-    setModalVisible(false);
-    setEditingReviewId(reviewId);
+      .catch(error => {
+        console.error(error);
+        setError(error);
+      });
   };
+  
 
-  const deleteReview = (id: number) => {
+  const deleteReview = (ids: number) => {
     axios
-      .delete(`http://192.168.0.105:3000/review/user/Saidam/${id}`)
+      .delete(`http://192.168.0.105:3000/review/${ids}`)
       .then(response => {
         console.log(response.data);
-        setReviews(prevReviews => prevReviews.filter(r => r.id !== id));
+        setReviews(prevReviews => prevReviews.filter(r => r.ids !== ids));
       })
       .catch(error => console.log(error));
   };
+  
 
   const renderItem = ({item}: any) => (
     <View style={styles.review}>
@@ -68,7 +69,7 @@ const MyReviewsScreen = ({id}: any) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.deleteButton]}
-          onPress={() => deleteReview(item.id)}>
+          onPress={() => deleteReview(item.ids)}>
           <Text style={styles.buttonText}>Delete</Text>
         </TouchableOpacity>
       </View>
@@ -99,7 +100,7 @@ const MyReviewsScreen = ({id}: any) => {
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               style={[styles.button, styles.editButton]}
-              onPress={() => editReview(id)}>
+              onPress={() => editReview(ids,content)}>
               <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
             <TouchableOpacity

@@ -15,6 +15,11 @@ import LoginScreen from './src/screens/Auth/LoginScreen';
 import Register from './src/screens/Auth/Register';
 import OnBoardingScreen from './src/screens/OnBoardingScreen';
 import SplashScreen from './src/SplashScreen';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']); 
+LogBox.ignoreAllLogs();
+
 
 
 const Stack = createNativeStackNavigator();
@@ -34,7 +39,7 @@ const App = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
-          {/* <Stack.Screen name="Onboarding" component={OnBoardingScreen} options={{headerShown: false}}/> */}
+          <Stack.Screen name="Onboarding" component={OnBoardingScreen} options={{headerShown: false}}/> 
           <Stack.Screen name="login" component={LoginScreen} options={{headerShown: false}} />
           <Stack.Screen
             name="signup"
@@ -50,12 +55,12 @@ const App = () => {
           <Stack.Screen
             name="Details"
             component={DetailsScreen}
-            options={{headerShown: false}}
+
           />
           <Stack.Screen
             name="AddReview"
             component={AddReview}
-            options={{headerShown: false}}
+
           />
           <Stack.Screen
             name="Favorites"
@@ -85,3 +90,4 @@ const App = () => {
 export default App;
 
 const styles = StyleSheet.create({});
+

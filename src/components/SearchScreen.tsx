@@ -3,7 +3,9 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { API_KEY } from '../services/urls';
-import { borderRadius, spacing } from '../assets/themes';
+import { borderRadius, colors, spacing } from '../assets/themes';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const SearchScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -71,7 +73,7 @@ const SearchScreen = () => {
           style={styles.searchBar}
         />
         <Pressable style={styles.searchButton} onPress={handleSearch}>
-          <Text>Axtar</Text>
+          <FontAwesomeIcon icon={faSearch} size={20} color= {colors.primary}/>
         </Pressable>
       </View>
   
@@ -93,13 +95,17 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: borderRadius.large,
-    paddingLeft: spacing.small,
+    paddingLeft: spacing.medium,
     marginBottom: spacing.small,
     marginRight: spacing.small,
   },
   searchButton: {
     height: 30,
-    marginLeft: spacing.small,
+    marginLeft: spacing.large,
+    marginBottom: spacing.small,
+    justifyContent: 'center',
+    alignItems: 'center',
+  
   },
   container: {
     flex: 1,

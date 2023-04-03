@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Pressable, Image} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {TextInput} from 'react-native-paper';
 import {login} from '../../store/redux/authSlice';
@@ -6,6 +6,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, StoreType} from '../../store/store';
 import {borderRadius, colors, fontSizes, spacing} from '../../assets/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faEye, faEyeDropper } from '@fortawesome/free-solid-svg-icons';
+import { CommonActions } from '@react-navigation/native';
 
 const LoginScreen = ({navigation}: any) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -13,6 +16,7 @@ const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const submit = async () => {
     setIsLoading(true);
     await dispatch(
@@ -38,6 +42,7 @@ const LoginScreen = ({navigation}: any) => {
       const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
       if (isLoggedIn === 'true') {
         navigation.navigate('Tabs');
+   
       }
     };
     checkLoggedInStatus();
@@ -49,6 +54,11 @@ const LoginScreen = ({navigation}: any) => {
       if (authState.response.statusCode === 200) {
         AsyncStorage.setItem('isLoggedIn', 'true');
         navigation.navigate('Tabs');
+        const resetAction = CommonActions.reset({
+          index: 0, 
+          routes: [{ name: 'login' }],
+        });
+        navigation.dispatch(resetAction);
       } else if (authState.response.statusCode === 404) {
         console.log('Something is wrong');
       }
@@ -67,12 +77,23 @@ const LoginScreen = ({navigation}: any) => {
         onChangeText={setEmail}
         style={styles.input}
       />
-      <TextInput
-        label="Şifrə"
-        secureTextEntry={true}
-        onChangeText={setPassword}
-        style={styles.input}
-      />
+     <TextInput
+  label="Password"
+  secureTextEntry={!isPasswordVisible}
+  onChangeText={setPassword}
+  right={
+    <TouchableOpacity
+      onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+      style={{paddingHorizontal: 10}}>
+        <FontAwesomeIcon icon={isPasswordVisible ? faEye : faEyeDropper} size={24} color="gray" />
+      {/* <MaterialCommunityIcons
+        name={isPasswordVisible ? 'eye-off' : 'eye'}
+        size={24}
+        color="gray"
+      /> */}
+    </TouchableOpacity>
+  }
+/>
       {authState.response.statusCode == 404 ? (
         <Text style={{color: 'red'}}>Something is wrong</Text>
       ) : null}

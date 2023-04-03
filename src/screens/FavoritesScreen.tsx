@@ -38,7 +38,7 @@ const FavoritesScreen = () => {
   
 
   if (loading) {
-    return <ActivityIndicator size="large" />;
+    return <ActivityIndicator size="large" style={{backgroundColor:colors.black}} />;
   }
 
   return (
