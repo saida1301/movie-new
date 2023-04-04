@@ -43,7 +43,7 @@ const SimilarMovies = ({ movieId }: Props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Similar Movies</Text>
+      <Text style={styles.heading}>Benzer Filmler</Text>
       <FlatList
         data={similarMovies}
         horizontal={true}

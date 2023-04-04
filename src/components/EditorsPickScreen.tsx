@@ -1,12 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {View,Text,FlatList,Image,StyleSheet,TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import {API_KEY} from '../services/urls';
 import {useNavigation} from '@react-navigation/native';
@@ -20,7 +13,7 @@ const EditorsPick = ({movies}: any) => {
   const containerWidth = cardWidth + spacing * 2;
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Editors Pick</Text>
+      <Text style={styles.heading}>Editörün Seçimi</Text>
       <FlatList
         data={movies}
         horizontal={true}

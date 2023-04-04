@@ -41,7 +41,7 @@ const TrendingMovies = () => {
   return (
 
     <View style={styles.container}>
-        <Text style={styles.header}>Trending Movies</Text>
+        <Text style={styles.header}>Trend Olan Filmler</Text>
       <FlatList
         data={trendingMovies}
         keyExtractor={(item) => item.id.toString()}

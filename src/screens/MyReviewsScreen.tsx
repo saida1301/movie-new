@@ -30,7 +30,7 @@ const MyReviewsScreen = ({ids}: any) => {
   }, []);
   const editReview = (ids: number, content: string) => {
     axios
-      .put(`http://192.168.0.105:3000/review/7360`, {
+      .put(`http://192.168.0.105:3000/review/8351`, {
         content: content,
       })
       .then(response => {
@@ -56,7 +56,9 @@ const MyReviewsScreen = ({ids}: any) => {
   
 
   const renderItem = ({item}: any) => (
+    
     <View style={styles.review}>
+      <Text style={styles.title}>{item.movie_title}</Text>
       <Text style={styles.content}>{item.content}</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -65,12 +67,12 @@ const MyReviewsScreen = ({ids}: any) => {
             setSelectedReviewId(item.id);
             setModalVisible(true);
           }}>
-          <Text style={styles.buttonText}>Edit</Text>
+          <Text style={styles.buttonText}>Düzenle</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.deleteButton]}
           onPress={() => deleteReview(item.ids)}>
-          <Text style={styles.buttonText}>Delete</Text>
+          <Text style={styles.buttonText}>Sil</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -88,10 +90,10 @@ const MyReviewsScreen = ({ids}: any) => {
 
       <Modal visible={modalVisible}>
         <View style={styles.modal}>
-          <Text style={styles.modalTitle}>Edit Review</Text>
+          <Text style={styles.modalTitle}>Düzenle</Text>
           <TextInput
             style={styles.modalInput}
-            placeholder="Enter new review content"
+            placeholder="Yeni yorumunuzu giriniz"
             multiline
             placeholderTextColor={'#ccc'}
             onChangeText={text => setNewContent(text)}
@@ -101,12 +103,12 @@ const MyReviewsScreen = ({ids}: any) => {
             <TouchableOpacity
               style={[styles.button, styles.editButton]}
               onPress={() => editReview(ids,content)}>
-              <Text style={styles.buttonText}>Save</Text>
+              <Text style={styles.buttonText}>Kaydet</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.button, styles.cancelButton]}
               onPress={() => setModalVisible(false)}>
-              <Text style={styles.buttonText}>Cancel</Text>
+              <Text style={styles.buttonText}>İptal</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -121,12 +123,20 @@ const styles = StyleSheet.create({
     padding: spacing.medium,
     backgroundColor: colors.black,
   },
+  title: {
+    fontSize: fontSizes.large,
+    fontWeight: 'bold',
+    marginBottom: spacing.small,
+    color: colors.black,
+    alignSelf: 'center',
+  },
   review: {
     padding: spacing.medium,
     marginVertical: spacing.medium,
     backgroundColor: colors.gray[100],
     borderRadius: borderRadius.small,
     justifyContent: 'center',
+    marginBottom: spacing.medium,
   },
   author: {
     fontWeight: 'bold',
@@ -137,7 +147,7 @@ const styles = StyleSheet.create({
   content: {
     fontSize: fontSizes.medium,
     color: colors.black,
-    justifyContent: 'center',
+    marginTop: spacing.large,
   },
   buttonContainer: {
     flexDirection: 'row',

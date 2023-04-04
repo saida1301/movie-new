@@ -69,7 +69,7 @@ const SearchScreen = () => {
         <TextInput
           onChangeText={handleSearchTermChange}
           value={searchTerm}
-          placeholder="Filmleri axtar"
+          placeholder="Film ara"
           style={styles.searchBar}
         />
         <Pressable style={styles.searchButton} onPress={handleSearch}>

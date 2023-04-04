@@ -1,10 +1,4 @@
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image,StyleSheet, Text,TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
 import {API_KEY, TMDB_BASE_URL} from '../services/urls';

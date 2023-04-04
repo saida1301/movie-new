@@ -1,13 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {View,Text,StyleSheet,Image,FlatList,ScrollView,TouchableOpacity,} from 'react-native';
 import axios from 'axios';
 import {API_KEY} from '../services/urls';
 import WebView from 'react-native-webview';
@@ -23,6 +15,7 @@ interface Movie {
   backdrop_path: string;
   release_date: string;
   vote_average: number;
+
   credits: {
     cast: [
       {
@@ -32,12 +25,13 @@ interface Movie {
       },
     ];
   };
+
 }
 const DetailsScreen = ({navigation, route}: any) => {
-  const {id, movie_id, author} = route.params;
+  const {id} = route.params;
 
   const [isFavorite, setIsFavorite] = useState(false);
-  const [movie, setMovie] = useState();
+  const [movie, setMovie] = useState<Movie>();
   const [trailer, setTrailer] = useState('');
   const [reviews, setReviews] = useState([]);
   const [showFullText, setShowFullText] = useState(false);
@@ -97,7 +91,7 @@ const DetailsScreen = ({navigation, route}: any) => {
   };
 
   const handlePressReview = (movie_id: any, author: any) => {
-    navigation.navigate('AddReview', {movie_id, author, onAddReview});
+    navigation.navigate('AddReview', {movie_id, author, onAddReview, movie_title: movie?.title});
   };
 
   const onAddReview = (review: any) => {
@@ -135,7 +129,7 @@ const DetailsScreen = ({navigation, route}: any) => {
             style={styles.reviewContent}>
             {item.content}
           </Text>
-          {!showFullText && <Text style={{color: colors.primary}}>more</Text>}
+          {!showFullText && <Text style={{color: colors.primary, marginRight:12}}>çox</Text>}
         </TouchableOpacity>
       </View>
     );
@@ -165,7 +159,7 @@ const DetailsScreen = ({navigation, route}: any) => {
           <Text style={styles.releaseDate}> {movie.release_date}</Text>
 
           <Text style={styles.overview}>{movie.overview}</Text>
-          <Text style={styles.sectionHeader}>Cast</Text>
+          <Text style={styles.sectionHeader}>Oyuncu Kadrosu</Text>
           <FlatList
             data={movie.credits.cast.slice(0, 4)}
             renderItem={renderCastMember}
@@ -175,7 +169,7 @@ const DetailsScreen = ({navigation, route}: any) => {
             contentContainerStyle={styles.castListContainer}
           />
           <View style={{marginTop: spacing.large}}>
-            <Text style={styles.sectionHeader}>Reviews</Text>
+            <Text style={styles.sectionHeader}>Yorumlar</Text>
             <FlatList
               data={reviews}
               renderItem={renderReview}

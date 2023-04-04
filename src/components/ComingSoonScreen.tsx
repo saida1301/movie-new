@@ -41,7 +41,7 @@ const navigation = useNavigation();
         />
         <View style={styles.movieDetails}>
           <Text style={styles.movieTitle}>{item.title}</Text>
-          <Text style={styles.movieReleaseDate}>Release date: {item.release_date}</Text>
+          <Text style={styles.movieReleaseDate}>Yayın tarihi: {item.release_date}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -51,7 +51,7 @@ const navigation = useNavigation();
   return (
 <View style={styles.container}>
   <Text style={styles.sectionTitle}>
-    Coming Soon
+  Yakında
   </Text>
   <FlatList
     data={movies}
@@ -78,12 +78,12 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.large,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: spacing.large,
+    marginBottom: spacing.medium,
   },
   movieContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: spacing.small,
+
     paddingHorizontal: spacing.small,
   },
   moviePoster: {

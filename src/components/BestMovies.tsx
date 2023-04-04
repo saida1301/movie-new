@@ -1,18 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import { View,Text,Image, StyleSheet,TouchableOpacity, Pressable} from 'react-native';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-
-
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 interface Movies {
   id: number;
@@ -42,7 +33,7 @@ const BestMovies = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Best Movies</Text>
+      <Text style={styles.header}>En iyi filmler</Text>
       {movies.slice(0, numMoviesToShow).map(movie => (
         <View style={styles.movieContainer} key={movie.id}>
           <Image
@@ -53,7 +44,7 @@ const BestMovies = () => {
           />
           <View style={styles.movieDetails}>
             <Text style={styles.title}>{movie.title}</Text>
-            <Text style={styles.rating}>Rating: {movie.vote_average}</Text>
+            <Text style={styles.rating}>Reyting: {movie.vote_average}</Text>
           </View>
           <Pressable
             style={{marginRight: 35}}
@@ -64,11 +55,11 @@ const BestMovies = () => {
       ))}
       {numMoviesToShow < movies.length ? (
         <TouchableOpacity onPress={handleShowMore}>
-          <Text style={styles.showMore}>Show More</Text>
+          <Text style={styles.showMore}>Daha çox</Text>
         </TouchableOpacity>
       ) : (
         <TouchableOpacity onPress={handleShowLess}>
-          <Text style={styles.showMore}>Show Less</Text>
+          <Text style={styles.showMore}>Daha az</Text>
         </TouchableOpacity>
       )}
     </View>

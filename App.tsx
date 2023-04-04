@@ -39,6 +39,7 @@ const App = () => {
 
   if (!islogin) {
     return (
+
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="SplashScreen"
@@ -53,6 +54,7 @@ const App = () => {
           />
         </Stack.Navigator>
       </NavigationContainer>
+
     );
   }
 

@@ -58,7 +58,7 @@ const LoginScreen = ({navigation}: any) => {
         style={styles.input}
       />
       <TextInput
-        label="Password"
+        label="Şifre"
         secureTextEntry={!isPasswordVisible}
         onChangeText={setPassword}
         right={
@@ -70,7 +70,7 @@ const LoginScreen = ({navigation}: any) => {
         }
       />
       {authState.response.statusCode == 404 ? (
-        <Text style={{color: 'red'}}>Something is wrong</Text>
+        <Text style={{color: 'red'}}>Yanlış bi şey var</Text>
       ) : null}
 <View style={{width: '100%', padding: spacing.large}}>
   <Pressable onPress={submit} style={styles.button}>
@@ -78,7 +78,7 @@ const LoginScreen = ({navigation}: any) => {
       <ActivityIndicator size="small" color="white" />
     ) : (
       <Text style={{textAlign: 'center', color: 'white', fontSize: fontSizes.large}}>
-        Submit
+        Daxil ol
       </Text>
     )}
   </Pressable>
@@ -87,9 +87,9 @@ const LoginScreen = ({navigation}: any) => {
       <Text style={{color: 'red'}}>{authState.response.error}</Text>
 
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-        <Text style={styles.title}>Hesabınız yoxdur? </Text>
+        <Text style={styles.title}>Hesabınız yok mu? </Text>
         <Pressable onPress={() => navigation.navigate('signup')}>
-          <Text style={styles.title}>Qeydiyyatdan keç</Text>
+          <Text style={styles.title}>Kayıt ol</Text>
         </Pressable>
       </View>
     </View>

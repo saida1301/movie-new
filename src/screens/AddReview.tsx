@@ -1,8 +1,7 @@
 import axios from 'axios';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Animated, Image } from 'react-native';
 import LottieView from 'lottie-react-native';
- 
 import SuccessAnimation from '../animations/success.json';
 import { borderRadius, colors, fontSizes, spacing } from '../assets/themes';
 import SimilarMovies from '../components/SimilarMovies';
@@ -14,7 +13,7 @@ type Props = {
   onClose: () => void;
 };
 
-const AddReview = ({ route, isVisible, onClose }: Props) => {
+const AddReview = ({ route }: Props) => {
   const [rating, setRating] = useState('');
   const [content, setContent] = useState('');
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
@@ -22,59 +21,61 @@ const AddReview = ({ route, isVisible, onClose }: Props) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
 
-  const { movie_id, author} = route.params;
+  const { movie_id, author, movie_title} = route.params;
 
   console.log("route.params", route.params);
+
 
   const postReview = async () => {
     try {
       const response = await axios.post(
         'http://192.168.0.105:3000/reviews',
-        { movie_id, author, content },
+        { movie_id, author, content , movie_title},
         { headers: { 'Content-Type': 'application/json' } }
       );
-  
+
       if (!response.status === 200) {
         throw new Error('Something went wrong');
       }
-  
+
       const data = response.data;
       console.log(data);
-  
+      
+
       setIsSuccessModalVisible(true);
       setTimeout(() => {
         setIsSuccessModalVisible(false);
-           setContent('');
+        setContent('');
 
-      }, 1000); 
+      }, 1000);
     } catch (error) {
       console.log(error);
     }
   };
-  
+
 
   return (
     <View style={styles.container}>
-          <Image
-          source={require('../assets/images/launch_screen.png')}
-          style={styles.image}
-        />
+      <Image
+        source={require('../assets/images/launch_screen.png')}
+        style={styles.image}
+      />
 
       <TextInput
         value={content}
         onChangeText={setContent}
-        placeholder="Enter your review"
+        placeholder="Yorumunuzu girin"
         style={styles.input}
         multiline={true}
         numberOfLines={4}
       />
       <TouchableOpacity style={styles.button} onPress={postReview}>
-        <Text style={styles.buttonText}>Submit Review</Text>
+        <Text style={styles.buttonText}>Gönder</Text>
       </TouchableOpacity>
 
-<View style={styles.box}>
+      <View style={styles.box}>
         <SimilarMovies movieId={movie_id} />
-</View>
+      </View>
       <Modal visible={isSuccessModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modal}>

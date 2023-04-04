@@ -62,7 +62,7 @@ const FavoritesScreen = () => {
                   {moment(item.release_date).format('MMMM DD, YYYY')}
                 </Text>
                 <TouchableOpacity onPress={() => removeFavorite(4, item.id)}>
-            <Text style={styles.removeButton}>Remove</Text>
+            <Text style={styles.removeButton}>Sil</Text>
           </TouchableOpacity>
               </View>
             </View>
@@ -106,6 +106,7 @@ height: "100%",
   details: {
     flex: 1,
     justifyContent: 'center',
+    marginLeft: spacing.small,
   },
   title: {
     fontSize: fontSizes.medium,

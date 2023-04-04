@@ -3,13 +3,7 @@ import React, {useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../screens/HomeScreen';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faArrowLeft,
-  faBookOpen,
-  faHeart,
-  faHouse,
-  faMessage,
-} from '@fortawesome/free-solid-svg-icons';
+import {faArrowLeft,faBookOpen,faHeart,faHouse,faMessage} from '@fortawesome/free-solid-svg-icons';
 import MyReviewsScreen from '../../screens/MyReviewsScreen';
 import ChatScreen from '../../screens/ChatScreen';
 import FavoritesScreen from '../../screens/FavoritesScreen';
@@ -29,7 +23,6 @@ const TabNavigator = () => {
           tabBarStyle: {
             backgroundColor: '#1c1c1c',
           },
-          tabBarActiveTintColor: 'red',
         }}>
         <Tab.Screen
           name="Home"
@@ -47,7 +40,7 @@ const TabNavigator = () => {
           })}
         />
         <Tab.Screen
-          name="MyReviews"
+          name="Benim Yorumlarım"
           component={MyReviewsScreen}
           options={({route}) => ({
             headerLeft: () => (
@@ -89,7 +82,7 @@ const TabNavigator = () => {
           })}
         />
         <Tab.Screen
-          name="OpenAi"
+          name="Chatgpt ile sohbet"
           component={ChatScreen}
           options={({route}) => ({
             headerLeft: () => (
@@ -130,7 +123,7 @@ const TabNavigator = () => {
           })}
         />
         <Tab.Screen
-          name="Favorites"
+          name="Favorilerim"
           component={FavoritesScreen}
           options={({route}) => ({
             headerLeft: () => (

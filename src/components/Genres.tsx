@@ -1,13 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  Image,
-  Pressable,
-} from 'react-native';
+import { View,Text,TouchableOpacity,FlatList,StyleSheet,Image, Pressable} from 'react-native';
 import axios from 'axios';
 import {API_KEY} from '../services/urls';
 
@@ -122,12 +114,12 @@ const Genres = ({navigation}: any) => {
         <TouchableOpacity
           onPress={() => setSelectedList('movies')}
           style={styles.button}>
-          <Text style={{ color:colors.black}}>Movies</Text>
+          <Text style={{ color:colors.black}}>Filmler</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setSelectedList('animations')}
           style={styles.button}>
-          <Text style={{ color:colors.black}}>Animations</Text>
+          <Text style={{ color:colors.black}}>Animasyonlar</Text>
         </TouchableOpacity>
         <View style={styles.arrow}>
           <Pressable onPress={() => setPage(page - 1)}>
