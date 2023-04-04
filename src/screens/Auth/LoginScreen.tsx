@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Pressable, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Image, TouchableOpacity, ActivityIndicator} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {TextInput} from 'react-native-paper';
 import {login} from '../../store/redux/authSlice';
@@ -17,6 +17,7 @@ const LoginScreen = ({navigation}: any) => {
   const [password, setPassword] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   const submit = async () => {
     setIsLoading(true);
     await dispatch(
@@ -26,91 +27,63 @@ const LoginScreen = ({navigation}: any) => {
       }),
     );
     setIsLoading(false);
+    AsyncStorage.setItem('isLoggedIn', 'true');
+    const resetAction = CommonActions.reset({
+      index: 0, 
+      routes: [{ name: 'Tabs' }],
+    });
+    navigation.dispatch(resetAction);
   };
-
-  useEffect(() => {
-    if (authState.loading === false) {
-      if (authState.response.statusCode === 200) {
-        AsyncStorage.setItem('isLoggedIn', 'true');
-        navigation.navigate('Tabs');
-      }
-    }
-  }, [authState.loading]);
 
   useEffect(() => {
     const checkLoggedInStatus = async () => {
       const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
       if (isLoggedIn === 'true') {
         navigation.navigate('Tabs');
-   
       }
     };
     checkLoggedInStatus();
   }, []);
 
-  useEffect(() => {
-    if (authState.loading === false) {
-      setIsLoading(false);
-      if (authState.response.statusCode === 200) {
-        AsyncStorage.setItem('isLoggedIn', 'true');
-        navigation.navigate('Tabs');
-        const resetAction = CommonActions.reset({
-          index: 0, 
-          routes: [{ name: 'login' }],
-        });
-        navigation.dispatch(resetAction);
-      } else if (authState.response.statusCode === 404) {
-        console.log('Something is wrong');
-      }
-    }
-  }, [authState.loading]);
-
   return (
     <View style={styles.container}>
-        <Image
-          source={require('../../assets/images/launch_screen.png')}
-          style={styles.image}
-        />
-   
+      <Image
+        source={require('../../assets/images/launch_screen.png')}
+        style={styles.image}
+      />
+
       <TextInput
         placeholder="E-mail"
         onChangeText={setEmail}
         style={styles.input}
       />
-     <TextInput
-  label="Password"
-  secureTextEntry={!isPasswordVisible}
-  onChangeText={setPassword}
-  right={
-    <TouchableOpacity
-      onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-      style={{paddingHorizontal: 10}}>
-        <FontAwesomeIcon icon={isPasswordVisible ? faEye : faEyeDropper} size={24} color="gray" />
-      {/* <MaterialCommunityIcons
-        name={isPasswordVisible ? 'eye-off' : 'eye'}
-        size={24}
-        color="gray"
-      /> */}
-    </TouchableOpacity>
-  }
-/>
+      <TextInput
+        label="Password"
+        secureTextEntry={!isPasswordVisible}
+        onChangeText={setPassword}
+        right={
+          <TouchableOpacity
+            onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+            style={{paddingHorizontal: 10}}>
+            <FontAwesomeIcon icon={isPasswordVisible ? faEye : faEyeDropper} size={24} color="gray" />
+          </TouchableOpacity>
+        }
+      />
       {authState.response.statusCode == 404 ? (
         <Text style={{color: 'red'}}>Something is wrong</Text>
       ) : null}
-      <View style={{width: '100%', padding: spacing.large}}>
-        <Pressable
-          onPress={submit}
-          style={styles.button}>
-          <Text
-            style={{
-              textAlign: 'center',
-              color: 'white',
-              fontSize: fontSizes.large,
-            }}>
-            Submit
-          </Text>
-        </Pressable>
-      </View>
+<View style={{width: '100%', padding: spacing.large}}>
+  <Pressable onPress={submit} style={styles.button}>
+    {isLoading ? (
+      <ActivityIndicator size="small" color="white" />
+    ) : (
+      <Text style={{textAlign: 'center', color: 'white', fontSize: fontSizes.large}}>
+        Submit
+      </Text>
+    )}
+  </Pressable>
+</View>
+
       <Text style={{color: 'red'}}>{authState.response.error}</Text>
 
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -143,7 +116,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontSize: fontSizes.large,
+    fontSize: fontSizes.medium,
   },
   button: {
     backgroundColor: colors.primary,

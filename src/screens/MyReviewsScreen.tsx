@@ -30,7 +30,7 @@ const MyReviewsScreen = ({ids}: any) => {
   }, []);
   const editReview = (ids: number, content: string) => {
     axios
-      .put(`http://192.168.0.105:3000/review/${ids}`, {
+      .put(`http://192.168.0.105:3000/review/7360`, {
         content: content,
       })
       .then(response => {

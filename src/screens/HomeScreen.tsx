@@ -10,6 +10,7 @@ import TrendingMovies from '../components/TrendingMovies';
 import BestMovies from '../components/BestMovies';
 import { spacing } from '../assets/themes';
 
+
 const Stack = createNativeStackNavigator();
 
 const HomeScreen = ({navigation}: any) => {
@@ -22,6 +23,7 @@ const HomeScreen = ({navigation}: any) => {
       <EditorsPickScreen />
       <TrendingMovies />
       <BestMovies />
+
     </ScrollView>
   );
 };

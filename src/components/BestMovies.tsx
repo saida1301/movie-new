@@ -8,12 +8,11 @@ import {
   Pressable,
 } from 'react-native';
 import axios from 'axios';
-import {API_KEY} from '../services/urls';
 import {useNavigation} from '@react-navigation/native';
 import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
-import { baseUrl } from '../api/axiosInstance';
+
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 interface Movies {
   id: number;

@@ -115,6 +115,6 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontSize: fontSizes.large,
+    fontSize: fontSizes.medium,
   },
 });

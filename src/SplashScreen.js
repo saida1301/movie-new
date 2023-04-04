@@ -7,7 +7,7 @@ const SplashScreen = ({ navigation }) => {
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 6000,
+      duration: 3000,
       useNativeDriver: true,
     }).start(() => {
       navigation.navigate('login');
@@ -29,7 +29,7 @@ const SplashScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Animated.Image
-        source={require('movieapp/src/assets/images/launch_screen.png')}
+        source={require('filmcaver/src/assets/images/launch_screen.png')}
         style={[styles.image, { opacity: fadeAnim }]}
       />
     </View>
