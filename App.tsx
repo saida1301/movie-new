@@ -25,47 +25,48 @@ LogBox.ignoreAllLogs();
 const Stack = createNativeStackNavigator();
 const App = () => {
 
+
+  const clear = () => {
+    AsyncStorage.clear()
+  }
+
   const [islogin, setislogin] = useState(false);
 
-  useEffect(() => {
-    const checkLoggedInStatus = async () => {
-      const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
-      if (isLoggedIn === 'true') {
-        setislogin(true);
-      }
-    };
-    checkLoggedInStatus();
-  }, []);
 
-  if (!islogin) {
-    return (
 
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="SplashScreen"
-          screenOptions={{headerShown: false}}
-        >
-          <Stack.Screen name="SplashScreen" component={SplashScreen} />
-          <Stack.Screen name="login" component={LoginScreen} options={{headerShown: false}} />
-          <Stack.Screen
-            name="signup"
-            component={Register}
-            options={{headerShown: false}}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-
-    );
-  }
+//   if (!islogin) {
+//     return (
+// <Provider store={store}>
+//       <NavigationContainer>
+//         <Stack.Navigator
+//           initialRouteName="SplashScreen"
+//           screenOptions={{headerShown: false}}
+//         >
+//           <Stack.Screen name="SplashScreen" component={SplashScreen} />
+//           <Stack.Screen name="login" component={LoginScreen} options={{headerShown: false}} />
+//           <Stack.Screen
+//             name="signup"
+//             component={Register}
+//             options={{headerShown: false}}
+//           />
+//         </Stack.Navigator>
+//       </NavigationContainer>
+// </Provider>
+//     );
+//   }
 
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Tabs"
-          screenOptions={{headerShown: false}}
-        >
+      <Stack.Navigator
+        initialRouteName="SplashScreen"
+        screenOptions={{headerShown: false}}
+      >   
+          <Stack.Screen name="SplashScreen" component={SplashScreen} />
+              <Stack.Screen name="login" component={LoginScreen} options={{headerShown: false}} />
           <Stack.Screen name="Tabs" component={TabNavigator} />
+
+          <Stack.Screen name="signup" component={Register} options={{headerShown: false}} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Details" component={DetailsScreen} />
           <Stack.Screen name="AddReview" component={AddReview} />

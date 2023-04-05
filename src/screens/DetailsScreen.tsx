@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View,Text,StyleSheet,Image,FlatList,ScrollView,TouchableOpacity,} from 'react-native';
 import axios from 'axios';
-import {API_KEY} from '../services/urls';
+import {API_KEY, TMDB_BASE_URL} from '../services/urls';
 import WebView from 'react-native-webview';
 import AddButtons from '../components/AddButtons';
 import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
@@ -54,7 +54,7 @@ const DetailsScreen = ({navigation, route}: any) => {
     const fetchTrailer = async () => {
       try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`,
+          `${TMDB_BASE_URL}/movie/${id}/videos?api_key=${API_KEY}&language=en-US`,
         );
         if (response.data.results.length > 0) {
           const trailerKey = response.data.results[0].key;
@@ -75,7 +75,7 @@ const DetailsScreen = ({navigation, route}: any) => {
           id
         );
         const response = await axios.get(
-          `http://192.168.0.105:3000/reviews/${id}`,
+          `http://172.16.0.184:3000/reviews/${id}`,
         );
         const reviewsData = response.data;
         setReviews(reviewsData);
@@ -91,12 +91,12 @@ const DetailsScreen = ({navigation, route}: any) => {
   };
 
   const handlePressReview = (movie_id: any, author: any) => {
-    navigation.navigate('AddReview', {movie_id, author, onAddReview, movie_title: movie?.title});
+    navigation.navigate('AddReview', {movie_id, author,  movie_title: movie?.title});
   };
 
-  const onAddReview = (review: any) => {
-    setReviews([...reviews, review]);
-  };
+  // const onAddReview = (review: any) => {
+  //   setReviews([...reviews, review]);
+  // };
 
   if (!movie) {
     return null;

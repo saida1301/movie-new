@@ -2,7 +2,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { API_KEY } from '../services/urls';
+import { API_KEY, TMDB_BASE_URL } from '../services/urls';
 import { borderRadius, colors, spacing } from '../assets/themes';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -41,7 +41,7 @@ const SearchScreen = () => {
     if (term.length >= 3) {
       try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${term}`
+          `${TMDB_BASE_URL}/search/movie?api_key=${API_KEY}&query=${term}`
         );
         setSearchResults(response.data.results);
       } catch (error) {

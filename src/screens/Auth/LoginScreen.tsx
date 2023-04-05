@@ -25,6 +25,7 @@ const LoginScreen = ({navigation}: any) => {
         email: email,
         password: password,
       }),
+     
     );
     setIsLoading(false);
     AsyncStorage.setItem('isLoggedIn', 'true');
@@ -33,11 +34,14 @@ const LoginScreen = ({navigation}: any) => {
       routes: [{ name: 'Tabs' }],
     });
     navigation.dispatch(resetAction);
+    navigation.navigate('Tabs')
   };
 
   useEffect(() => {
     const checkLoggedInStatus = async () => {
       const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+      console.log(isLoggedIn);
+      
       if (isLoggedIn === 'true') {
         navigation.navigate('Tabs');
       }

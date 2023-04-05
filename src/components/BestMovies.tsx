@@ -18,7 +18,7 @@ const BestMovies = () => {
 
   useEffect(() => {
     axios
-      .get(`http://192.168.0.105:3000/movies/best`)
+      .get(`http://172.16.0.184:3000/movies/best`)
       .then(response => setMovies(response.data))
       .catch(error => console.error(error));
   }, []);

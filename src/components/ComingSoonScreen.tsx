@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_KEY } from '../services/urls';
+import { API_KEY, TMDB_BASE_URL } from '../services/urls';
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
@@ -13,7 +13,7 @@ const navigation = useNavigation();
     const fetchMovies = async () => {
       try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`
+          `${TMDB_BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=tr-TR&page=1`
         );
         const now = new Date();
         const filteredMovies = response.data.results.filter((movie: { release_date: string | number | Date; }) => {

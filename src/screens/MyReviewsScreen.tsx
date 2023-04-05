@@ -24,13 +24,13 @@ const MyReviewsScreen = ({ids}: any) => {
 
   useEffect(() => {
     axios
-      .get(`http://192.168.0.105:3000/review/user/Saidam`)
+      .get(`http://172.16.0.184:3000/review/user/Saidam`)
       .then(response => setReviews(response.data))
       .catch(error => setError(error));
   }, []);
   const editReview = (ids: number, content: string) => {
     axios
-      .put(`http://192.168.0.105:3000/review/8351`, {
+      .put(`http://172.16.0.184:3000/review/8351`, {
         content: content,
       })
       .then(response => {
@@ -46,7 +46,7 @@ const MyReviewsScreen = ({ids}: any) => {
 
   const deleteReview = (ids: number) => {
     axios
-      .delete(`http://192.168.0.105:3000/review/${ids}`)
+      .delete(`http://172.16.0.184:3000/review/${ids}`)
       .then(response => {
         console.log(response.data);
         setReviews(prevReviews => prevReviews.filter(r => r.ids !== ids));

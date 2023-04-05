@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, FlatList } from 'react-native';
 import { borderRadius, colors, fontSizes, spacing } from '../assets/themes';
-import { API_KEY } from '../services/urls';
+import { API_KEY, TMDB_BASE_URL } from '../services/urls';
 
 
 type Props = {
@@ -21,7 +21,7 @@ const SimilarMovies = ({ movieId }: Props) => {
   useEffect(() => {
     const fetchSimilarMovies = async () => {
       try {
-        const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${API_KEY}`);
+        const response = await axios.get(`${TMDB_BASE_URL}/movie/${movieId}/similar?api_key=${API_KEY}`);
         const data = response.data.results;
         setSimilarMovies(data);
       } catch (error) {

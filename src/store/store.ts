@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import authReducer from "./redux/authSlice";
-import reviewReducer from "./redux/reviewsSlice";
+
 
 export const store = configureStore({
     reducer: {
    
         auth: authReducer,
-        review: reviewReducer,
+
     }
 })
 

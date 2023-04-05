@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View,Text,TouchableOpacity,FlatList,StyleSheet,Image, Pressable} from 'react-native';
 import axios from 'axios';
-import {API_KEY} from '../services/urls';
+import {API_KEY, TMDB_BASE_URL} from '../services/urls';
 
 import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
 
@@ -26,7 +26,7 @@ const Genres = ({navigation}: any) => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios.get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc&page=${page}`,
+        `${TMDB_BASE_URL}/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc&page=${page}`,
       );
 
       const newMovies = result.data.results.filter(

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View,Text,FlatList,Image,StyleSheet,TouchableOpacity} from 'react-native';
 import axios from 'axios';
-import {API_KEY} from '../services/urls';
+import {API_KEY, TMDB_BASE_URL} from '../services/urls';
 import {useNavigation} from '@react-navigation/native';
 import {borderRadius, colors, fontSizes, spacing} from '../assets/themes';
 
@@ -48,7 +48,7 @@ const EditorsPickScreen = () => {
   useEffect(() => {
     axios
       .get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=vote_average.desc&vote_count.gte=5000&page=1`,
+        `${TMDB_BASE_URL}/discover/movie?api_key=${API_KEY}&sort_by=vote_average.desc&vote_count.gte=5000&page=1`,
       )
       .then(response => setMovies(response.data.results))
       .catch(error => console.log(error));

@@ -1,11 +1,9 @@
 import {StyleSheet, Text, View, Pressable, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {TextInput} from 'react-native-paper';
-
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, StoreType} from '../../store/store';
 import {register} from '../../store/redux/authSlice';
-import Header from '../../components/Header';
 import {borderRadius, colors, fontSizes, spacing} from '../../assets/themes';
 
 const Register = ({navigation}: any) => {
@@ -40,12 +38,12 @@ const Register = ({navigation}: any) => {
         style={styles.input}
       />
       <TextInput
-        placeholder="Istifadeçi adı"
+        placeholder="Kullanıcı adı"
         onChangeText={setName}
         style={styles.input}
       />
       <TextInput
-        label="Şifrə"
+        label="Şifre"
         secureTextEntry={true}
         onChangeText={password => setPassword(password)}
         style={styles.input}
@@ -64,7 +62,7 @@ const Register = ({navigation}: any) => {
               color: 'white',
               fontSize: fontSizes.large,
             }}>
-            Submit
+            Kayıt Ol
           </Text>
         </Pressable>
       </View>

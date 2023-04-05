@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
-import { API_KEY } from '../services/urls';
+import { API_KEY, TMDB_BASE_URL } from '../services/urls';
 import { borderRadius, colors, fontSizes, spacing } from '../assets/themes';
 
 const windowWidth = Dimensions.get('window').width;
@@ -14,7 +14,7 @@ const TrendingMovies = () => {
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`
+      `${TMDB_BASE_URL}/trending/movie/week?api_key=${API_KEY}`
     )
       .then((response) => response.json())
       .then((json) => setTrendingMovies(json.results))

@@ -29,7 +29,7 @@ const AddReview = ({ route }: Props) => {
   const postReview = async () => {
     try {
       const response = await axios.post(
-        'http://192.168.0.105:3000/reviews',
+        'http://172.16.0.184:3000/reviews',
         { movie_id, author, content , movie_title},
         { headers: { 'Content-Type': 'application/json' } }
       );

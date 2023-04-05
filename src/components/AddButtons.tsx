@@ -33,7 +33,7 @@ const AddButtons = ({movie_id, onPressReview, movie_title}: any) => {
 
     try {
       const response = await axios.post(
-        `http://192.168.0.105:3000/favorites`,
+        `http://172.16.0.184:3000/favorites`,
         data,
       );
       console.log(response.data);
